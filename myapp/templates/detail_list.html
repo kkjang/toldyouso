@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
+	<table class="table table-bordered">
+		{% for statement in object_list %}
+			<tr>
+				<td>{{ statement.statement_text }}</td>
+				<td>{{ statement.id }}</td>
+			</tr>
+		{% empty %}
+			<li>No statements yet.</li>
+		{% endfor %}
+	</table>
+{% endblock %}
