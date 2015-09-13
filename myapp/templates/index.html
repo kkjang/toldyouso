@@ -1,7 +1,32 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
-	<div class="container">
-		<h1 class="text-center">Welcome to ToldYouSo</h1>
+	<div class="text-center">
+		<h1 class="special-title">Welcome to ToldYouSo</h1>
+		<h3>A lightweight tool for keeping track of bets with friends!</h2>
+	</div>
+{% endblock %}
+{% block extra %}
+	<div class="jumbotron tarheel-white">
+		<div class="container">
+			<h2>Getting Started:</h2>
+			<div class="row getting-started">
+				<div class="col-md-3">
+					<h2>Step 1</h2>
+					<p>Make a bet with a friend!</p>
+					<p>Follow this <a href="{% url 'submit' %}">link</a> or use the top bar to create a new betting room.</p>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3">
+					<h2>Step 2</h2>
+					<p>Give your room key to your friend.</p>
+					<p>Your friend can access your room via this <a href="{% url 'find' %}">link</a>.</p>
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-3">
+					<h2>Step 3</h2>
+				</div>
+			</div>
+		</div>
 	</div>
 {% endblock %}

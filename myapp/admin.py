@@ -1,5 +1,8 @@
 from django.contrib import admin
 
-from .models import Statement
+from .models import Room
 
-admin.site.register(Statement)
+class KeyAdmin(admin.ModelAdmin):
+	readonly_fields = ('room_key',)
+
+admin.site.register(Room, KeyAdmin)

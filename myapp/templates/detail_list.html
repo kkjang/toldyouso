@@ -4,8 +4,11 @@
 	<table class="table table-bordered">
 		{% for statement in object_list %}
 			<tr>
-				<td>{{ statement.statement_text }}</td>
+				<td><a href="{% url 'detail' statement.id %}">{{ statement.challenger_bet }}</a></td>
 				<td>{{ statement.id }}</td>
+				{% if statement.challenged_bet %}
+					<td>{{ statement.challenged_bet }}</td>
+				{% endif %}
 			</tr>
 		{% empty %}
 			<li>No statements yet.</li>

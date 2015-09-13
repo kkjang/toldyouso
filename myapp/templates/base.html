@@ -4,29 +4,34 @@
 	<head>
 		<link href="{% static 'bootstrap-3.3.5-dist/css/bootstrap.min.css' %}"
 			rel="stylesheet" media="screen">
-		<link href="{% static 'site_specific/css/toldyouso.css' %}"
-			rel="stylesheet" media="screen">
-		</head>
-		<body>
-			<nav class="navbar navbar-default">
-				<div class="container-fluid">
-					<div class="navbar-header">
-						<a class="navbar-brand" href="{% url 'index' %}">ToldYouSo</a>
+			<link href="{% static 'site_specific/css/toldyouso.css' %}"
+				rel="stylesheet" media="screen">
+			</head>
+			<body>
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<a class="navbar-brand" href="{% url 'index' %}">ToldYouSo</a>
+						</div>
+						<div>
+							<ul class="nav navbar-nav">
+								<li><a href="{% url 'index' %}">Home</a></li>
+								<li><a href="{% url 'admin:index' %}">Admin</a></li>
+								<li><a href="{% url 'detail_list' %}">All Rooms</a></li>
+								<li><a href="{% url 'submit' %}">Create a Bet Room</a></li>
+								<li><a href="{% url 'find' %}">Find a Room</a></li>
+							</ul>
+						</div>
 					</div>
-					<div>
-						<ul class="nav navbar-nav">
-							<li class="active"><a href="{% url 'index' %}">Home</a></li>
-							<li><a href="{% url 'admin:index' %}">Admin</a></li>
-							<li><a href="{% url 'detail_list' %}">All Statements</a></li>
-							<li><a href="{% url 'submit' %}">Submit a Statement</a></li>
-						</ul>
+				</nav>
+				<div class="jumbotron tarheel-blue header kill-spacing">
+					<div class="container">
+						{% block content %}
+						{% endblock %}
 					</div>
 				</div>
-			</nav>
-			<div class="jumbotron">
-				{% block content %}
+				{% block extra %}
 				{% endblock %}
-			</div>
-			<script src="{% static 'bootstrap-3.3.5-dist/js/bootstrap.min.js' %}"></script>
-		</body>
-	</html>
+				<script src="{% static 'bootstrap-3.3.5-dist/js/bootstrap.min.js' %}"></script>
+			</body>
+		</html>
