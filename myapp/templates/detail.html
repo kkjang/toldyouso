@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
-	<h1>{{ room.title }}</h1>
-	<h2>{{ room.date_created }}</h2>
+	<h1>Welcome to the {{ room.title }}</h1>
+	<p>On {{ room.date_created }}....</p>
+	<div class="row">
+		<div class="col-md-6">
+			<h4>{{ room.challenger_name }} bet that:</h4>
+			<p>{{ room.challenger_bet }}</p>
+		</div>
+		<div class="col-md-6">
+			<h4>{{ room.challenged_name }} bet that:</h4>
+			<p>{{ room.challenged_bet }}</p>
+		</div>
+	</div>
 	<h2>{{ room.room_key }}</h2>
 {% endblock %}

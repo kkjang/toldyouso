@@ -30,8 +30,8 @@ def submit_room(request):
 			form = SubmitRoomForm()
 	else:
 		form = SubmitRoomForm()
-
-	return render(request, 'submit.html', {'form': form})
+	title = "Welcome challenger... here is your room!"
+	return render(request, 'submit.html', {'form': form, 'title': title})
 
 def find_room_from_key(request):
 	if request.method == 'POST':
@@ -41,8 +41,8 @@ def find_room_from_key(request):
 			return HttpResponseRedirect(reverse('edit', kwargs={'room_key':room_key}))
 	else:
 		form = RequestRoomForm()
-
-	return render(request, 'submit.html', {'form': form})
+	title = "Enter your room key to access the bet room."
+	return render(request, 'submit.html', {'form': form, 'title': title})
 
 def submit_challenged(request, room_key):
 	room_instance = Room.objects.get(room_key = room_key)
@@ -57,6 +57,5 @@ def submit_challenged(request, room_key):
 			return HttpResponseRedirect(reverse('thanks'))
 	else:
 		form = ResponseRoomForm()
-
-	return render(request, 'submit.html', {'form': form})
-
+	title = "Success! Enter your side of the bet."
+	return render(request, 'submit.html', {'form': form, 'title': title})

@@ -16,12 +16,13 @@ class SubmitRoomForm(forms.ModelForm):
 		super(SubmitRoomForm, self).__init__(*args, **kwargs)
 		self.helper = FormHelper(self)
 		horizontal_helper(self)
+		self.helper['challenger_extra'].wrap(Field, placeholder="Extra space for verification, bet amount, etc.")
 		self.helper.add_input(Submit('submit', 'Submit'))
 		self.helper.add_input(Submit('clear', 'Clear'))
 
 	class Meta:
 		model = Room
-		exclude = ['date_created', 'challenged_bet', 'ready']
+		exclude = ['date_created', 'challenged_bet', 'ready', 'challenged_name', 'challenged_extra']
 
 class RequestRoomForm(forms.Form):
 	room_key = forms.CharField(label="Room Key")
@@ -43,8 +44,9 @@ class ResponseRoomForm(forms.ModelForm):
 		super(ResponseRoomForm, self).__init__(*args, **kwargs)
 		self.helper = FormHelper(self)
 		horizontal_helper(self)
+		self.helper['challenged_extra'].wrap(Field, placeholder="Extra space for verification, bet amount, etc.")
 		self.helper.add_input(Submit('submit', 'Submit'))
 
 	class Meta:
 		model = Room
-		exclude = ['date_created', 'challenger_bet', 'ready', 'title']
+		exclude = ['date_created', 'challenger_bet', 'ready', 'title', 'challenger_name', 'challenger_extra']
