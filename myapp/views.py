@@ -5,6 +5,8 @@ from django.views.generic import TemplateView, DetailView, ListView
 from django.utils import timezone
 
 from .models import Room
+from rest_framework import viewsets
+from .serializers import RoomSerializer
 from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm
 
 # Create your views here.
@@ -59,3 +61,7 @@ def submit_challenged(request, room_key):
 		form = ResponseRoomForm()
 	title = "Success! Enter your side of the bet."
 	return render(request, 'submit.html', {'form': form, 'title': title})
+
+class RoomSetView(viewsets.ModelViewSet):
+	queryset = Room.objects.all().order_by('-date_created')
+	serializer_class = RoomSerializer
