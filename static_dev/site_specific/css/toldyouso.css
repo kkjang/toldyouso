@@ -28,6 +28,17 @@
   font-weight: bold;
   margin-bottom:0px;
 }
+.login {
+  float: left;
+  padding-top: 12px;
+}
+.faq h5 {
+  color:#004c99; 
+  padding-left:20px
+}
+.faq p {
+    padding-left:20px
+}
 .navbar-default .navbar-brand {
   color: #7bafd4;
 }

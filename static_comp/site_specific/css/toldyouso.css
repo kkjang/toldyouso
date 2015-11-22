@@ -22,6 +22,49 @@
 	color: #7bafd4;
 	text-decoration: underline;
 }
+.login {
+  float: left;
+  padding-top: 12px;
+}
+.questions {
+  color:#004c99; 
+  text-align: left;
+  padding-left: 10%;
+}
+.questions h3 {
+  color:#000;
+}
+.answers {
+  /*color:#004c99; */
+  color: white;
+  padding-left:10%;
+  padding-right: 10%;
+}
+.answers h3 {
+  color:#000;
+}
+.answers p {
+  /*padding-left:10%;*/
+  /*color: black;*/
+  color:#004c99;
+  padding-right: 10%;
+}
+.home-middle-nav-bar form{
+  padding-left: 65%;
+  padding-top: 1%;
+}
+.home-middle-nav-bar input[type=submit] {
+  color: white;
+  font-size: 1.3em;
+  padding:5px 15px; 
+  background:#7bafd4; 
+  border:0 none;
+  cursor:pointer;
+  border-radius: 5px; 
+}
+.home-middle-nav-bar input[type=submit]:hover {
+  background:#004c99; 
+}
 .navbar-default {
   background-color: #ffffff;
   border-color: #ffffff;

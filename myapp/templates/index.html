@@ -2,32 +2,26 @@
 {% extends "base.html" %}
 {% block content %}
 	<div class="text-center">
-		<h1 class="special-title">Welcome to ToldYouSo</h1>
+		<h1 class="special-title">Welcome to SetInStone</h1>
 		<h3>A lightweight tool for keeping track of bets with friends!</h2>
 	</div>
 {% endblock %}
 {% block extra %}
 	<div class="jumbotron tarheel-white">
 		<div class="container">
-			<h2>Getting Started:</h2>
-			<div class="row getting-started">
-				<div class="col-md-3">
-					<h2>Step 1</h2>
-					<p>Make a bet with a friend!</p>
-					<p>Follow this <a href="{% url 'submit' %}">link</a> or use the top bar to create a new betting room.</p>
-				</div>
-				<div class="col-md-1"></div>
-				<div class="col-md-3">
-					<h2>Step 2</h2>
-					<p>Give your room key to your friend.</p>
-					<p>Your friend can access your room via this <a href="{% url 'find' %}">link</a>.</p>
-				</div>
-				<div class="col-md-1"></div>
-				<div class="col-md-3">
-					<h2>Step 3</h2>
-					<p>Your friend can now use the key to place their bet.</p>
-					<p>E-mail yourself the room URL so you can keep track of the bet!</p>
-				</div>
+			<div class="description_view_bets" style="float:left; width:60%;text-align:left">
+				<p style="display:inline-block">SetInStone was created by a group of students attending the University of North Carolina at Chapel Hill.  Kevin Jang was the original creator, later joined by Peter Chen, Patrick Lung, and Kaja Coraor. The purpose of the site is to allow for friends to record their bets so neither party can change their side or renege on the bet.  </p>
+			</div>
+			<div class="home-middle-nav-bar">
+				<form action="{% url 'getstarted' %}">
+				    <input type="submit" value="Getting Started">
+				</form>
+				<form action="{% url 'faq' %}">
+				    <input type="submit" value="Frequently Asked Questions">
+				</form>
+				<form action="{% url 'detail_list' %}">
+				    <input type="submit" value="View Bets">
+				</form>
 			</div>
 		</div>
 	</div>
