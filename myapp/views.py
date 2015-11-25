@@ -1,13 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import TemplateView, DetailView, ListView, FormView
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.contrib.auth import logout, authenticate, login
 
-from .models import Room
+from .models import Bet, Wager, BetWager, Room
 from rest_framework import viewsets
 from .serializers import RoomSerializer
-from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm
+from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm
 
 # Create your views here.
 class DetailRoomList(ListView):
@@ -24,6 +26,7 @@ def submit_room(request):
 			form = SubmitRoomForm(request.POST)
 			if form.is_valid():
 				room = form.save(commit=False)
+				room.user = request.user
 				room.date_created = timezone.now()
 				room.ready = False
 				room.save()
@@ -65,3 +68,30 @@ def submit_challenged(request, room_key):
 class RoomSetView(viewsets.ModelViewSet):
 	queryset = Room.objects.all().order_by('-date_created')
 	serializer_class = RoomSerializer
+
+def register_user(request):
+	if request.method == 'POST':
+		form = UserRegisterForm(request.POST)
+		if form.is_valid():
+			user = form.save(commit=False)
+			user.save()
+			return HttpResponseRedirect(reverse('thanks'))
+	else:
+		form = UserRegisterForm()
+	title = "Enter your information here."
+	return render(request, 'submit.html', {'form': form, 'title': title})
+
+def login_user(request):
+	if request.method == 'POST':
+		form = UserLoginForm(data=request.POST)
+		if form.is_valid():
+			login(request, form.get_user())
+			return HttpResponseRedirect(reverse('thanks'))
+	else:
+		form = UserLoginForm()
+	title = "Login Here."
+	return render(request, 'submit.html', {'form': form, 'title': title})
+
+def logout_user(request):
+	logout(request)
+	return HttpResponseRedirect(reverse('thanks'))
