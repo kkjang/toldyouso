@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import uuid
 
 class Room(models.Model):
+	user = models.ForeignKey(User, editable=False)
 	date_created = models.DateField()
 	room_key = models.UUIDField(default=uuid.uuid4, editable=False)
 	title = models.CharField(max_length=255)

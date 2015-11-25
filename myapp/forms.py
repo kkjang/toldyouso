@@ -2,6 +2,8 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from djangular.forms import NgModelFormMixin, NgModelForm
+from djangular.styling.bootstrap3.forms import Bootstrap3FormMixin
 from .models import Room
 from django.contrib import auth
 
@@ -13,15 +15,7 @@ def horizontal_helper(form):
     form.helper.label_class = 'col-md-2'
     form.helper.field_class = 'col-md-10'
 
-class SubmitRoomForm(forms.ModelForm):
-	def __init__(self, *args, **kwargs):
-		super(SubmitRoomForm, self).__init__(*args, **kwargs)
-		self.helper = FormHelper(self)
-		horizontal_helper(self)
-		self.helper['challenger_extra'].wrap(Field, placeholder="Extra space for verification, bet amount, etc.")
-		self.helper.add_input(Submit('submit', 'Submit'))
-		self.helper.add_input(Submit('clear', 'Clear'))
-
+class SubmitRoomForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 	class Meta:
 		model = Room
 		exclude = ['date_created', 'challenged_bet', 'ready', 'challenged_name', 'challenged_extra', 'user']

@@ -20,6 +20,17 @@ def room_detail(request, pid):
 	room = get_object_or_404(Room, pk=pid)
 	return render(request, 'detail.html', {'room': room})
 
+class SubmitRoomFormView(TemplateView):
+	template_name = 'submit.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(SubmitRoomFormView, self).get_context_data(**kwargs)
+		context.update(submit_room=SubmitRoomForm())
+		context.update(title="Please submit your bet.")
+		return context
+
+
+
 def submit_room(request):
 	if request.method == 'POST':
 		if 'submit' in request.POST:
