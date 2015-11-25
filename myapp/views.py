@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 
-from .models import Bet, Wager, BetWager, Room
+from .models import Room
 from rest_framework import viewsets
 from .serializers import RoomSerializer
 from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm
