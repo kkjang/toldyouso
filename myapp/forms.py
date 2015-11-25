@@ -16,6 +16,9 @@ def horizontal_helper(form):
     form.helper.field_class = 'col-md-10'
 
 class SubmitRoomForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
+	def __init__(self, *args, **kwargs):
+		kwargs.update(scope_prefix='room_data')
+		super(SubmitRoomForm, self).__init__(*args, **kwargs)
 	class Meta:
 		model = Room
 		exclude = ['date_created', 'challenged_bet', 'ready', 'challenged_name', 'challenged_extra', 'user']

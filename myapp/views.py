@@ -29,7 +29,15 @@ class SubmitRoomFormView(TemplateView):
 		context.update(title="Please submit your bet.")
 		return context
 
+class RoomSetView(viewsets.ModelViewSet):
+	queryset = Room.objects.all().order_by('-date_created')
+	serializer_class = RoomSerializer
 
+	def create(self, request):
+		print request.data, request.user
+		test = RoomSerializer(data=request.data, partial=True)
+		test.save()
+		print test
 
 def submit_room(request):
 	if request.method == 'POST':
@@ -76,10 +84,6 @@ def submit_challenged(request, room_key):
 	title = "Success! Enter your side of the bet."
 	return render(request, 'submit.html', {'form': form, 'title': title})
 
-class RoomSetView(viewsets.ModelViewSet):
-	queryset = Room.objects.all().order_by('-date_created')
-	serializer_class = RoomSerializer
-
 def register_user(request):
 	if request.method == 'POST':
 		form = UserRegisterForm(request.POST)
@@ -90,7 +94,7 @@ def register_user(request):
 	else:
 		form = UserRegisterForm()
 	title = "Enter your information here."
-	return render(request, 'submit.html', {'form': form, 'title': title})
+	return render(request, 'registration/registration.html', {'form': form, 'title': title})
 
 def login_user(request):
 	if request.method == 'POST':
@@ -101,7 +105,7 @@ def login_user(request):
 	else:
 		form = UserLoginForm()
 	title = "Login Here."
-	return render(request, 'submit.html', {'form': form, 'title': title})
+	return render(request, 'registration/registration.html', {'form': form, 'title': title})
 
 def logout_user(request):
 	logout(request)

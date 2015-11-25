@@ -4,42 +4,43 @@
 	<head>
 		<link href="{% static 'bootstrap-3.3.5-dist/css/bootstrap.min.css' %}"
 			rel="stylesheet" media="screen">
-			<link href="{% static 'site_specific/css/toldyouso.css' %}"
-				rel="stylesheet" media="screen">
-			</head>
-			<body>
-				<nav class="navbar navbar-default">
-					<div class="container-fluid">
-						<div class="navbar-header">
-							<a class="navbar-brand" href="{% url 'index' %}">ToldYouSo</a>
-						</div>
-						<div>
-							<ul class="nav navbar-nav">
-								<li><a href="{% url 'index' %}">Home</a></li>
-								<li><a href="{% url 'admin:index' %}">Admin</a></li>
-								<li><a href="{% url 'detail_list' %}">All Rooms</a></li>
-								<li><a href="{% url 'submit' %}">Create a Bet Room</a></li>
-								<li><a href="{% url 'find' %}">Find a Room</a></li>
-								{% if user.is_authenticated %}
-								    <li><a href="{% url 'index' %}">{{ user.get_username }}</a></li>
-								    <li><a href="{% url 'logout' %}">Logout</a></li>
-							    {% else %}
-							    	<li><a href="{% url 'register' %}">Register</a></li>
-							    	<li><a href="{% url 'login' %}">Login</a></li>
-								{% endif %}
-							</ul>
-						</div>
-					</div>
-				</nav>
-				<div class="jumbotron tarheel-blue header kill-spacing">
-					<div class="container" ng-app='myapp'>
-						{% block content %}
-						{% endblock %}
-					</div>
+		<link href="{% static 'site_specific/css/toldyouso.css' %}"
+		rel="stylesheet" media="screen">
+	</head>
+	<body>
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="{% url 'index' %}">ToldYouSo</a>
 				</div>
-				{% block extra %}
+				<div>
+					<ul class="nav navbar-nav">
+						<li><a href="{% url 'index' %}">Home</a></li>
+						<li><a href="{% url 'admin:index' %}">Admin</a></li>
+						<li><a href="{% url 'detail_list' %}">All Rooms</a></li>
+						<li><a href="{% url 'submit' %}">Create a Bet Room</a></li>
+						<li><a href="{% url 'find' %}">Find a Room</a></li>
+						{% if user.is_authenticated %}
+						    <li><a href="{% url 'index' %}">{{ user.get_username }}</a></li>
+						    <li><a href="{% url 'logout' %}">Logout</a></li>
+					    {% else %}
+					    	<li><a href="{% url 'register' %}">Register</a></li>
+					    	<li><a href="{% url 'login' %}">Login</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<div class="jumbotron tarheel-blue header kill-spacing">
+			<div class="container">
+				{% block content %}
 				{% endblock %}
-				<script src="{% static 'bootstrap-3.3.5-dist/js/bootstrap.min.js' %}"></script>
-				<script src="{% static 'site_specific/js/myapp.js' %}"></script>
-			</body>
-		</html>
+			</div>
+		</div>
+		{% block extra %}
+		{% endblock %}
+		<script src="{% static 'bootstrap-3.3.5-dist/js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'angular-1.4.8/angular.min.js' %}"></script>
+		<script src="{% static 'site_specific/js/myapp.js' %}"></script>
+	</body>
+</html>
