@@ -2,8 +2,8 @@
 {% extends "base.html" %}
 {% block content %}
 	<h2>{{ title }}</h2>
-	<form ng-controller="RoomController" ng-app='myapp' >
+	<form ng-controller="RoomController" ng-app='myapp' ng-submit="submit()" >
 		{{submit_room}}
-		<button ng-click="submit()">Submit</button>
+		<button>Submit</button>
 	</form>
 {% endblock %}

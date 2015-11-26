@@ -21,7 +21,7 @@ class SubmitRoomForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 		super(SubmitRoomForm, self).__init__(*args, **kwargs)
 	class Meta:
 		model = Room
-		exclude = ['date_created', 'challenged_bet', 'ready', 'challenged_name', 'challenged_extra', 'user']
+		exclude = ['date_created', 'ready', 'challenged_extra', 'user']
 
 class RequestRoomForm(forms.Form):
 	room_key = forms.CharField(label="Room Key")

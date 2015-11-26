@@ -7,7 +7,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 
 from .models import Room
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .serializers import RoomSerializer
 from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm
 
@@ -20,8 +22,9 @@ def room_detail(request, pid):
 	room = get_object_or_404(Room, pk=pid)
 	return render(request, 'detail.html', {'room': room})
 
-class SubmitRoomFormView(TemplateView):
+class SubmitRoomFormView(FormView):
 	template_name = 'submit.html'
+	form_class = SubmitRoomForm
 
 	def get_context_data(self, **kwargs):
 		context = super(SubmitRoomFormView, self).get_context_data(**kwargs)
@@ -29,15 +32,21 @@ class SubmitRoomFormView(TemplateView):
 		context.update(title="Please submit your bet.")
 		return context
 
-class RoomSetView(viewsets.ModelViewSet):
+class RoomSetView(viewsets.ModelViewSet, APIView):
 	queryset = Room.objects.all().order_by('-date_created')
 	serializer_class = RoomSerializer
 
-	def create(self, request):
-		print request.data, request.user
-		test = RoomSerializer(data=request.data, partial=True)
-		test.save()
-		print test
+	def create(self, request):		
+		print request.is_ajax()
+		test = RoomSerializer(data=request.data)
+		if test.is_valid():
+			test.save(user=request.user)
+			test.save()
+			return Response(test.data, status=status.HTTP_201_CREATED)
+		else:
+			print test.errors
+			return Response(test.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 def submit_room(request):
 	if request.method == 'POST':
