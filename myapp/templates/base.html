@@ -15,6 +15,7 @@
 						</div>
 						<div>
 							<ul class="nav navbar-nav">
+							<ul class="nav navbar-nav" style="width:90%">
 								<li><a href="{% url 'index' %}">Home</a></li>
 								<li><a href="{% url 'admin:index' %}">Admin</a></li>
 								<li><a href="{% url 'signup' %}">Sign up</a></li>
@@ -27,6 +28,17 @@
     							<li><a href="{% url 'detail_list' %}">All Rooms</a></li>
 								<li><a href="{% url 'submit' %}">Create a Bet Room</a></li>
 								<li><a href="{% url 'find' %}">Find a Room</a></li> -->
+    							</div> -->
+    							<li><a href="{% url 'detail_list' %}">All Bets</a></li>
+								<li><a href="{% url 'find' %}">Find a Bet</a></li>
+								{% if user.is_authenticated %}
+									<li><a href="{% url 'submit' %}">Create a Bet</a></li>
+									<li style="float:right"><a href="{% url 'logout' %}">Logout</a></li>
+								    <li style="float:right"><a href="{% url 'index' %}">{{ user.get_username }}</a></li>
+							    {% else %}
+							    	<li style="float:right"><a href="{% url 'register' %}">Register</a></li>
+							    	<li style="float:right"><a href="{% url 'login' %}">Login</a></li>
+								{% endif %}
 							</ul>
 						</div>
 					</div>

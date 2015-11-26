@@ -1,7 +1,9 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Room
+from django.contrib import auth
 
 def horizontal_helper(form):
     """ Adds the horizontal form classes
@@ -22,7 +24,7 @@ class SubmitRoomForm(forms.ModelForm):
 
 	class Meta:
 		model = Room
-		exclude = ['date_created', 'challenged_bet', 'ready', 'challenged_name', 'challenged_extra']
+		exclude = ['date_created', 'challenged_bet', 'ready', 'challenged_name', 'challenged_extra', 'user']
 
 class RequestRoomForm(forms.Form):
 	room_key = forms.CharField(label="Room Key")
@@ -49,4 +51,26 @@ class ResponseRoomForm(forms.ModelForm):
 
 	class Meta:
 		model = Room
-		exclude = ['date_created', 'challenger_bet', 'ready', 'title', 'challenger_name', 'challenger_extra']
+		exclude = ['date_created', 'challenger_bet', 'ready', 'title', 'challenger_name', 'challenger_extra', 'user']
+
+class UserRegisterForm(UserCreationForm):
+	def __init__(self, *args, **kwargs):
+		super(UserRegisterForm, self).__init__(*args, **kwargs)
+		self.helper = FormHelper()
+		self.helper.layout = Layout(
+			'username',
+			'password1',
+			'password2',
+		)
+		self.helper.add_input(Submit('submit', 'Submit'))
+
+class UserLoginForm(AuthenticationForm):
+	def __init__(self, *args, **kwargs):
+		super(UserLoginForm, self).__init__(*args, **kwargs)
+		self.helper = FormHelper()
+		self.helper.layout = Layout(
+			'username',
+			'password',
+		)
+		self.helper.add_input(Submit('submit', 'Submit'))
+
