@@ -8,7 +8,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl) 
     $scope.submit = function() {
         var in_data = angular.toJson($scope.room_data);
         console.log($scope);
-        $http.post('/room/rooms/', in_data)
+        $http.post(djangoUrl.reverse('room-list'), in_data)
             .success(function(out_data) {
                 console.log("Success");
                 console.log(out_data);
