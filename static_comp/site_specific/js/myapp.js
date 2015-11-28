@@ -5,6 +5,7 @@ var my_app = angular.module('myapp', ['ng.django.urls', /* dependencies */]).con
 });
 
 my_app.controller('RoomController', function($scope, $http, $window, djangoUrl) {
+
     $scope.submit = function() {
         var in_data = angular.toJson($scope.room_data);
         console.log($scope);
@@ -14,5 +15,15 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl) 
                 console.log(out_data);
                 $window.location.href = djangoUrl.reverse('thanks');
             });
+    }
+
+    $scope.getAllRooms = function(){
+        $http.get('/rooms')
+            .success(function (data){
+                console.log("asdf");
+                console.log(data);
+                $scope.allRooms = data.data; 
+                console.log('$scope.allRooms = ', $scope.allRooms);
+            })
     }
 });
