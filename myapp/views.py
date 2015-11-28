@@ -11,7 +11,7 @@ from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import RoomSerializer
-from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm
+from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm, SubmitWagerForm
 
 # Create your views here.
 class DetailRoomList(TemplateView):
@@ -28,6 +28,7 @@ class SubmitRoomFormView(FormView):
 	def get_context_data(self, **kwargs):
 		context = super(SubmitRoomFormView, self).get_context_data(**kwargs)
 		context.update(submit_room=SubmitRoomForm())
+		context.update(submit_wager=SubmitWagerForm())
 		context.update(title="Please submit your bet.")
 		return context
 

@@ -21,7 +21,15 @@ class SubmitRoomForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 		super(SubmitRoomForm, self).__init__(*args, **kwargs)
 	class Meta:
 		model = Room
-		exclude = ['date_created', 'ready', 'challenged_extra', 'user']
+		exclude = ['date_created', 'ready', 'challenged_name', 'challenged_extra', 'user', 'challenged_bet']
+
+class SubmitWagerForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
+	def __init__(self, *args, **kwargs):
+		kwargs.update(scope_prefix='room_data')
+		super(SubmitWagerForm, self).__init__(*args, **kwargs)
+	class Meta:
+		model = Room
+		exclude = ['date_created', 'ready', 'challenger_extra', 'user', 'challenger_bet', 'challenger_name', 'title']
 
 class RequestRoomForm(forms.Form):
 	room_key = forms.CharField(label="Room Key")
