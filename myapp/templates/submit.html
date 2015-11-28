@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
-	{% load crispy_forms_tags %}
 	<h2>{{ title }}</h2>
-	{% crispy form %}
+	<form ng-controller="RoomController" ng-app='myapp' ng-submit="submit()" >
+		{{submit_room}}
+		{{submit_wager}}
+		<button>Submit</button>
+	</form>
 {% endblock %}
