@@ -3,10 +3,11 @@ from django.contrib.auth.models import User
 import uuid
 
 class Room(models.Model):
-	date_created = models.DateField()
+	user = models.ForeignKey(User, editable=False)
+	date_created = models.DateField(auto_now_add=True, blank=True)
 	room_key = models.UUIDField(default=uuid.uuid4, editable=False)
 	title = models.CharField(max_length=255)
-	ready = models.BooleanField()
+	ready = models.BooleanField(default=False)
 	challenger_name = models.CharField(max_length=30)
 	challenged_name = models.CharField(max_length=30)
 	challenger_bet = models.TextField(max_length=255)

@@ -7,18 +7,46 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 
 from .models import Room
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .serializers import RoomSerializer
-from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm
+from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm, SubmitWagerForm
 
 # Create your views here.
-class DetailRoomList(ListView):
-	model = Room
+class DetailRoomList(TemplateView):
 	template_name = "detail_list.html"
 
 def room_detail(request, pid):
 	room = get_object_or_404(Room, pk=pid)
 	return render(request, 'detail.html', {'room': room})
+
+class SubmitRoomFormView(FormView):
+	template_name = 'submit.html'
+	form_class = SubmitRoomForm
+
+	def get_context_data(self, **kwargs):
+		context = super(SubmitRoomFormView, self).get_context_data(**kwargs)
+		context.update(submit_room=SubmitRoomForm())
+		context.update(submit_wager=SubmitWagerForm())
+		context.update(title="Please submit your bet.")
+		return context
+
+class RoomSetView(viewsets.ModelViewSet, APIView):
+	queryset = Room.objects.all().order_by('-date_created')
+	serializer_class = RoomSerializer
+
+	def create(self, request):		
+		print request.is_ajax()
+		test = RoomSerializer(data=request.data)
+		if test.is_valid():
+			test.save(user=request.user)
+			test.save()
+			return Response(test.data, status=status.HTTP_201_CREATED)
+		else:
+			print test.errors
+			return Response(test.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 def submit_room(request):
 	if request.method == 'POST':
@@ -65,10 +93,6 @@ def submit_challenged(request, room_key):
 	title = "Success! Enter your side of the bet."
 	return render(request, 'submit.html', {'form': form, 'title': title})
 
-class RoomSetView(viewsets.ModelViewSet):
-	queryset = Room.objects.all().order_by('-date_created')
-	serializer_class = RoomSerializer
-
 def register_user(request):
 	if request.method == 'POST':
 		form = UserRegisterForm(request.POST)
@@ -79,7 +103,7 @@ def register_user(request):
 	else:
 		form = UserRegisterForm()
 	title = "Enter your information here."
-	return render(request, 'submit.html', {'form': form, 'title': title})
+	return render(request, 'registration/registration.html', {'form': form, 'title': title})
 
 def login_user(request):
 	if request.method == 'POST':
@@ -90,7 +114,7 @@ def login_user(request):
 	else:
 		form = UserLoginForm()
 	title = "Login Here."
-	return render(request, 'submit.html', {'form': form, 'title': title})
+	return render(request, 'registration/registration.html', {'form': form, 'title': title})
 
 def logout_user(request):
 	logout(request)

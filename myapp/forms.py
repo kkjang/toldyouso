@@ -2,6 +2,8 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from djangular.forms import NgModelFormMixin, NgModelForm
+from djangular.styling.bootstrap3.forms import Bootstrap3FormMixin
 from .models import Room
 from django.contrib import auth
 
@@ -13,18 +15,21 @@ def horizontal_helper(form):
     form.helper.label_class = 'col-md-2'
     form.helper.field_class = 'col-md-10'
 
-class SubmitRoomForm(forms.ModelForm):
+class SubmitRoomForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 	def __init__(self, *args, **kwargs):
+		kwargs.update(scope_prefix='room_data')
 		super(SubmitRoomForm, self).__init__(*args, **kwargs)
-		self.helper = FormHelper(self)
-		horizontal_helper(self)
-		self.helper['challenger_extra'].wrap(Field, placeholder="Extra space for verification, bet amount, etc.")
-		self.helper.add_input(Submit('submit', 'Submit'))
-		self.helper.add_input(Submit('clear', 'Clear'))
-
 	class Meta:
 		model = Room
-		exclude = ['date_created', 'challenged_bet', 'ready', 'challenged_name', 'challenged_extra', 'user']
+		exclude = ['date_created', 'ready', 'challenged_name', 'challenged_extra', 'user', 'challenged_bet']
+
+class SubmitWagerForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
+	def __init__(self, *args, **kwargs):
+		kwargs.update(scope_prefix='room_data')
+		super(SubmitWagerForm, self).__init__(*args, **kwargs)
+	class Meta:
+		model = Room
+		exclude = ['date_created', 'ready', 'challenger_extra', 'user', 'challenger_bet', 'challenger_name', 'title']
 
 class RequestRoomForm(forms.Form):
 	room_key = forms.CharField(label="Room Key")
