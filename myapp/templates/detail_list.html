@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
-    <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()" >
+{% load djangular_tags %}
+{% angularjs %}
+    <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()">
         <table class="table table-bordered">
-            <ul>
-                <li ng-repeat="room in allRooms">
-                    {{room.title }} {{room.email1}} {{room.condition1}}  {{room.amount1}} {{room.email2}} 
-                    {{room.condition2}} {{room.amount2}} 
-                </li>
-            </ul>
+            <tr ng-repeat="room in allRooms">
+                <td>{{ room.title }}</td>
+                <td>{{ room.challenged_bet }}</td>
+                <td>{{ room.challenged_name }}</td>
+                <td>{{ room.date_created }}</td>
+                <td>{{ room.room_key }}</td>
+            </tr>
         </table>
     </div>
+{% endangularjs %}
 {% endblock %}
