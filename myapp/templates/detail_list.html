@@ -3,22 +3,12 @@
 {% block content %}
     <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()" >
         <table class="table table-bordered">
-            {% for statement in object_list %}
-                <tr>
-                    <td><a href="{% url 'detail' statement.id %}">{{ statement.challenger_bet }}</a></td>
-                    <td>{{ statement.id }}</td>
-                    {% if statement.challenged_bet %}
-                        <td>{{ statement.challenged_bet }}</td>
-                    {% endif %}
-                </tr>
-            {% empty %}
             <ul>
                 <li ng-repeat="room in allRooms">
                     {{room.title }} {{room.email1}} {{room.condition1}}  {{room.amount1}} {{room.email2}} 
                     {{room.condition2}} {{room.amount2}} 
                 </li>
             </ul>
-            {% endfor %}
         </table>
     </div>
 {% endblock %}

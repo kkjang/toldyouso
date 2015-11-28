@@ -18,9 +18,8 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl) 
     }
 
     $scope.getAllRooms = function(){
-        $http.get('/rooms')
+        $http.get(djangoUrl.reverse('room-list'))
             .success(function (data){
-                console.log("asdf");
                 console.log(data);
                 $scope.allRooms = data.data; 
                 console.log('$scope.allRooms = ', $scope.allRooms);

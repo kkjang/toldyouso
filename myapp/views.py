@@ -14,8 +14,7 @@ from .serializers import RoomSerializer
 from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm
 
 # Create your views here.
-class DetailRoomList(ListView):
-	model = Room
+class DetailRoomList(TemplateView):
 	template_name = "detail_list.html"
 
 def room_detail(request, pid):
