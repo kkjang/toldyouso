@@ -1,7 +1,52 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
-	<h1>Welcome to the {{ room.title }}</h1>
+
+
+
+{% endblock %}
+
+<!-- after finding one wager -->
+<!-- should be bet.creator_id -->
+
+{% if room.date_accepted %}
+
+	<!-- get userid from bets, display both peoples' names -->
+	<!-- display room info, have titles as "Your Criteria", etc. -->
+
+{% else %}
+	{% if user.get_username == room.creator_id %}
+
+    	<!-- display room info, have titles as "Your Criteria", etc. -->
+		<button ng-click="Delete">Delete</button>
+
+	<!-- key passed through views.py -->
+	{% else if key == room.room_key%}
+
+		<!-- get userid from bets, display creator's name -->
+    	<!-- display room info, have titles as "Your Criteria", etc. -->
+		<button ng-click="accept_bet">Accept and Finalize Bet</button>
+
+	{ % else %}
+
+		"You don't have permission to view this page"
+
+	}
+
+
+	<!-- <td>{{ room.title }}</td>
+	Your criteria
+	{{ room.challenger_bet }}
+
+	Your bet
+	{{ room.challenger_}}
+    <td>{{ room.challenged_bet }}</td>
+    <td>{{ room.challenged_name }}</td>
+    <td>{{ room.date_created }}</td>
+    <td>{{ room.room_key }}</td>	 -->
+
+
+<!-- 	<h1>Welcome to the {{ room.title }}</h1>
 	<p>On {{ room.date_created }}....</p>
 	<div class="row">
 		<div class="col-md-6">
@@ -14,4 +59,4 @@
 		</div>
 	</div>
 	<h2>{{ room.room_key }}</h2>
-{% endblock %}
+{% endblock %} -->

@@ -19,7 +19,12 @@ class DetailRoomList(TemplateView):
 
 def room_detail(request, pid):
 	room = get_object_or_404(Room, pk=pid)
-	return render(request, 'detail.html', {'room': room})
+	# if request.GET.get('q'):
+ #    	key = request.GET['q']
+ #    else:
+ #    	key = 'a'
+ # how do we pass this parameter in? can we just add 'key' into the return statement?
+	return render(request, 'detail.html', key, {'room': room})
 
 class SubmitRoomFormView(FormView):
 	template_name = 'submit.html'
