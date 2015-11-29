@@ -3,7 +3,8 @@
 {% block content %}
 {% load djangular_tags %}
 {% angularjs %}
-    <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()">
+    <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getKeyFromUrl()">
+    	<button ng-click="getKeyFromUrl()">getKeyFromUrl()</button>
         <table class="table table-bordered">
             <tr ng-repeat="room in allRooms">
                 <td>{{ room.title }}</td>
