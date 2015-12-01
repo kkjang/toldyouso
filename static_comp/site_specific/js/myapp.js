@@ -13,6 +13,17 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     var colDefs;  
 
     $scope.searchBet = [];
+    $scope.dt1 = new Date();    
+    $scope.dt2 = new Date();
+
+    $scope.format = 'dd-MMMM-yyyy';
+    $scope.open = function($event, opened) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope[opened] = true;
+    };
+
     $scope.gridOptions = { data: 'allRooms',
                             showFilter : true,
                             enableColumnResize : true,
@@ -67,11 +78,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                 console.log('$scope = ', $scope);
             })
     }
-
-      $scope.open = function($event) {
-        $scope.status.opened = true;
-      };
-
 
 });
 

@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
-
-
-
+<h2>hey it works!</h2>
 {% endblock %}
+<!-- 
+{% if invite == room.room_key %}
+	<h4>hey it works!</h4> -->
 
 <!-- after finding one wager -->
 <!-- should be bet.creator_id -->
 
-{% if room.date_accepted %}
+<!-- {% if room.date_accepted %} -->
 
 	<!-- get userid from bets, display both peoples' names -->
 	<!-- display room info, have titles as "Your Criteria", etc. -->
-
+<!-- 
 {% else %}
 	{% if user.get_username == room.creator_id %}
-
+ -->
     	<!-- display room info, have titles as "Your Criteria", etc. -->
-		<button ng-click="Delete">Delete</button>
+		<!-- <button ng-click="Delete">Delete</button> -->
 
 	<!-- key passed through views.py -->
-	{% else if key == room.room_key%}
+	<!-- {% else if key == room.room_key%} -->
 
 		<!-- get userid from bets, display creator's name -->
     	<!-- display room info, have titles as "Your Criteria", etc. -->
-		<button ng-click="accept_bet">Accept and Finalize Bet</button>
+		<!-- <button ng-click="accept_bet">Accept and Finalize Bet</button>
 
 	{ % else %}
 
 		"You don't have permission to view this page"
 
-	}
+	} -->
 
 
 	<!-- <td>{{ room.title }}</td>

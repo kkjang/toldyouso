@@ -3,21 +3,38 @@
 {% block content %}
 {% load djangular_tags %}
 {% angularjs %}
+
+<style>
+.jumbotron {
+    padding: 10px;
+}
+</style>
+
 <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()">
     <div class="container">
         <div class="searchInput" class="row">
         <form novalidate class="simple-form" id="blackText">   
-            <div class="col-md-3">
-                Bet Title: <input type="text" ng-model="searchBet.title"/>
+            <div class="col-md-2">
+                <h5>Bet Title:</h5> <input type="text" class="form-control" ng-model="searchBet.title"/>
+            </div>
+            <div class="col-md-2">
+                <h5>Challenged Bet:</h5> (include the $ sign) <input type="text" class="form-control" ng-model="searchBet.challengedBet"/>
+            </div>
+            <div class="col-md-2">
+                <h5>Challenged Name:</h5> <input type="text" class="form-control" ng-model="searchBet.challengedName"/>
             </div>
             <div class="col-md-3">
-                Challenged Bet: (include the $ sign) <input type="text" ng-model="searchBet.challengedBet"/>
+                <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" ng-required="true" close-text="Close" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
             </div>
             <div class="col-md-3">
-                Challenged Name: <input type="text" ng-model="searchBet.challengedName"/>
+                <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event,'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
             </div>
         </form>
-        <datepicker ng-model="searchBet.date"></datepicker>
+        
+        <!-- <datepicker ng-model="searchBet.date"></datepicker> -->
         <button ng-click="filter()" class="home-middle-nav-bar">filter</button>
     </div>
          <!-- <table class="table table-bordered">

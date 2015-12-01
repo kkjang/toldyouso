@@ -19,12 +19,12 @@ class DetailRoomList(TemplateView):
 
 def room_detail(request, pid):
 	room = get_object_or_404(Room, pk=pid)
-	# if request.GET.get('q'):
- #    	key = request.GET['q']
- #    else:
- #    	key = 'a'
- # how do we pass this parameter in? can we just add 'key' into the return statement?
-	return render(request, 'detail.html', key, {'room': room})
+	# assertion error, has to do with {'room': room}	
+	return render(request, 'detail.html', {'room': room})
+
+def test_query_string (request):
+	invite = request.GET.get('i')
+	return render(request, 'test-for-string.html', {'invite': invite})
 
 class SubmitRoomFormView(FormView):
 	template_name = 'submit.html'
@@ -54,6 +54,7 @@ class RoomSetView(viewsets.ModelViewSet, APIView):
 
 
 def submit_room(request):
+
 	if request.method == 'POST':
 		if 'submit' in request.POST:
 			form = SubmitRoomForm(request.POST)
@@ -99,6 +100,7 @@ def submit_challenged(request, room_key):
 	return render(request, 'submit.html', {'form': form, 'title': title})
 
 def register_user(request):
+
 	if request.method == 'POST':
 		form = UserRegisterForm(request.POST)
 		if form.is_valid():
@@ -124,3 +126,4 @@ def login_user(request):
 def logout_user(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('thanks'))
+

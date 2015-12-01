@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^login/', views.login_user, name='login'),
     url(r'^logout/', views.logout_user, name='logout'),
     url(r'^room/$', views.DetailRoomList.as_view(), name='detail_list'),
+    url(r'^room/a/$', views.test_query_string, name='test-for-string'),
     url(r'^room/(?P<pid>[0-9]+)/$', views.room_detail, name='detail'),
     url(r'^room/thanks/$', TemplateView.as_view(template_name='thanks.html'), name='thanks'),
     url(r'^room/submit/$', views.SubmitRoomFormView.as_view(), name='submit'),
