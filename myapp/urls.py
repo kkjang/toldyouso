@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^bet/$', views.DetailRoomList.as_view(), name='detail_list'),
     url(r'^bet/(?P<pid>[0-9]+)/$', views.room_detail, name='detail'),
     url(r'^bet/thanks/$', TemplateView.as_view(template_name='thanks.html'), name='thanks'),
-    url(r'^bet/submit/$', views.submit_room, name='submit'),
+    url(r'^bet/submit/$', views.SubmitRoomFormView.as_view(), name='submit'),
     url(r'^bet/find/$', views.find_room_from_key, name='find'),
     url(r'^bet/edit/(?P<room_key>[^/]+)/$', views.submit_challenged, name='edit'),
     url(r'^bet/error/$', TemplateView.as_view(template_name='room_ready_error.html'), name='room_ready_error'),

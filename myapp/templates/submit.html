@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
+    <div class="list-img jumbotron"></div>
+{% endblock %}
+{% block extra %}
+
+<div class="list-space pretty-submit">
 	<h2>{{ title }}</h2>
-	<form ng-controller="RoomController" ng-app='myapp' ng-submit="submit()" >
+	<form ng-controller="RoomController" ng-app='myapp' ng-submit="submit()">
 		{{submit_room}}
 		{{submit_wager}}
 		<button>Submit</button>
 	</form>
+</div>
+
+<div class="list-footer"></div>
 {% endblock %}
