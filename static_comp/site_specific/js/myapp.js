@@ -1,4 +1,4 @@
-var my_app = angular.module('myapp', ['ng.django.urls', 'ngGrid'/* dependencies */]).config(function($httpProvider) {
+var my_app = angular.module('myapp', ['ng.django.urls', 'ngGrid', 'ui.bootstrap'/* dependencies */]).config(function($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -11,6 +11,8 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     console.log("outside of function, $scope.absUrl = ", $scope.currentLocation);
     $scope.allRooms = [];  
     var colDefs;  
+
+    $scope.searchBet = [];
     $scope.gridOptions = { data: 'allRooms',
                             showFilter : true,
                             enableColumnResize : true,
@@ -42,7 +44,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         $http({ //toldyouso.com/room/rooms/1?title=abc
             url: $location.absUrl, //toldyouso.com/room/rooms/1
             method: "GET",
-            params: {title: $location.search()} //COTNINUE HERE! Not sure what to put here!abc
+            params: {title: $location.search()} //CONTINUE HERE! Not sure what to put here!abc
         })
         .success(function (data){
             console.log(data);
@@ -66,4 +68,10 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             })
     }
 
+      $scope.open = function($event) {
+        $scope.status.opened = true;
+      };
+
+
 });
+

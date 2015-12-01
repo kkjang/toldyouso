@@ -3,19 +3,35 @@
 {% block content %}
 {% load djangular_tags %}
 {% angularjs %}
-    <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()">
-        <!-- <table class="table table-bordered">
-            <tr ng-repeat="room in allRooms">
-                <td>{{ room.title }}</td>
-                <td>{{ room.challenged_bet }}</td>
-                <td>{{ room.challenged_name }}</td>
-                <td>{{ room.date_created }}</td>
-                <td>{{ room.room_key }}</td>
-            </tr>
-        </table> -->
+<div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()">
+    <div class="container">
+        <div class="searchInput" class="row">
+        <form novalidate class="simple-form" id="blackText">   
+            <div class="col-md-3">
+                Bet Title: <input type="text" ng-model="searchBet.title"/>
+            </div>
+            <div class="col-md-3">
+                Challenged Bet: (include the $ sign) <input type="text" ng-model="searchBet.challengedBet"/>
+            </div>
+            <div class="col-md-3">
+                Challenged Name: <input type="text" ng-model="searchBet.challengedName"/>
+            </div>
+        </form>
+        <datepicker ng-model="searchBet.date"></datepicker>
+        <button ng-click="filter()" class="home-middle-nav-bar">filter</button>
+    </div>
+         <!-- <table class="table table-bordered">
+                <tr ng-repeat="room in allRooms">
+                    <td>{{ room.title }}</td>
+                    <td>{{ room.challenged_bet }}</td>
+                    <td>{{ room.challenged_name }}</td>
+                    <td>{{ room.date_created }}</td>
+                    <td>{{ room.room_key }}</td>
+                </tr>
+            </table> -->
         <div  style="table-layout: fixed; width: 100%" class="gridStyle" ng-grid="gridOptions"></div>
-
         <button ng-click="getKeyFromUrl()">getKeyFromUrl()</button>
     </div>
+</div>
 {% endangularjs %}
 {% endblock %}
