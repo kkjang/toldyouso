@@ -4,7 +4,7 @@
 {% load djangular_tags %}
 {% angularjs %}
     <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()">
-        <table class="table table-bordered">
+        <!-- <table class="table table-bordered">
             <tr ng-repeat="room in allRooms">
                 <td>{{ room.title }}</td>
                 <td>{{ room.challenged_bet }}</td>
@@ -12,7 +12,10 @@
                 <td>{{ room.date_created }}</td>
                 <td>{{ room.room_key }}</td>
             </tr>
-        </table>
+        </table> -->
+        <div  style="table-layout: fixed; width: 100%" class="gridStyle" ng-grid="gridOptions"></div>
+
+        <button ng-click="getKeyFromUrl()">getKeyFromUrl()</button>
     </div>
 {% endangularjs %}
 {% endblock %}

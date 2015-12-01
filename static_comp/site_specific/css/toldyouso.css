@@ -84,3 +84,21 @@
     background-color: #ffffff;
   }
 }
+
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    width: 1000px; 
+    height: 500px;
+    /*margin-left: 120px;*/
+}
+
+.ngHeaderSortColumn{
+  background-color: #000000;
+}
+
+.ngCellText{
+  background-color: #808080;
+   overflow:visible;
+  height: 50px;
+  /*word-wrap: break-word;*/
+}
