@@ -10,7 +10,7 @@
 }
 </style>
 
-<div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()">
+<div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllBets()">
     <div class="container">
         <div class="searchInput" class="row">
         <form novalidate class="simple-form" id="blackText">   
@@ -49,13 +49,13 @@
         <!-- <datepicker ng-model="searchBet.date"></datepicker> -->
         <button ng-click="filter()" class="home-middle-nav-bar">filter</button>
     </div>
-         <!-- <table class="table table-bordered">
-                <tr ng-repeat="room in allRooms">
-                    <td>{{ room.title }}</td>
-                    <td>{{ room.challenged_bet }}</td>
-                    <td>{{ room.challenged_name }}</td>
-                    <td>{{ room.date_created }}</td>
-                    <td>{{ room.room_key }}</td>
+        <!--  <table class="table table-bordered">
+                <tr ng-repeat="bet in allBets">
+                    <td>{{ bet.title }}</td>
+                    <td>{{ bet.challenged_bet }}</td>
+                    <td>{{ bet.challenged_name }}</td>
+                    <td>{{ bet.date_created }}</td>
+                    <td>{{ bet.room_key }}</td>
                 </tr>
             </table> -->
         <div  style="table-layout: fixed; width: 100%" class="gridStyle" ng-grid="gridOptions"></div>
