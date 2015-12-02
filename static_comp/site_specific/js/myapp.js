@@ -24,6 +24,11 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         $scope[opened] = true;
     };
 
+    $scope.status = {
+        isopen: false
+    };
+
+
     $scope.gridOptions = { data: 'allRooms',
                             showFilter : true,
                             enableColumnResize : true,

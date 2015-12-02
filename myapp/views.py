@@ -18,6 +18,9 @@ class DetailRoomList(TemplateView):
 	template_name = "detail_list.html"
 
 def room_detail(request, pid):
+	# send request to django in json
+	# send back info about room
+	# let django figure out how to render page
 	room = get_object_or_404(Room, pk=pid)
 	# assertion error, has to do with {'room': room}	
 	return render(request, 'detail.html', {'room': room})
