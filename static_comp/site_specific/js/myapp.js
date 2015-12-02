@@ -12,7 +12,16 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.allRooms = [];  
     var colDefs;  
 
-    $scope.searchBet = [];
+    $scope.searchBet = {title: "",
+                        challengedBet: "",
+                        challengedName: "", 
+                        startDate: "",
+                        endDate: ""
+                        };
+    $scope.$watch('searchBet', function(newValue, oldValue) {
+        console.log("searchBet oldValue = ", oldValue);
+        console.log("searchBet newValue = ", newValue);
+    });
     $scope.dt1 = new Date();    
     $scope.dt2 = new Date();
 
@@ -20,7 +29,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.open = function($event, opened) {
         $event.preventDefault();
         $event.stopPropagation();
-
         $scope[opened] = true;
     };
 
@@ -28,7 +36,21 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         isopen: false
     };
 
+    $scope.betFilterOptions = ["Bet Title",
+                                "Date Created", 
+                                "Date Accepted", 
+                                "Challenged Bet",
+                                "Challenged Name"]
+    $scope.$watch('searchBet', function(newValue, oldValue) {
+        console.log("searchBet oldValue = ", oldValue);
+        console.log("searchBet newValue = ", newValue);
+    });
 
+
+    $scope.$watch('searchBet', function(newValue, oldValue) {
+        console.log("searchBet oldValue = ", oldValue);
+        console.log("searchBet newValue = ", newValue);
+    });
     $scope.gridOptions = { data: 'allRooms',
                             showFilter : true,
                             enableColumnResize : true,
