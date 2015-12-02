@@ -6,12 +6,13 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 
-from .models import Room
+from .models import Room, Bet, Wager
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import RoomSerializer
-from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm, SubmitWagerForm
+from rest_framework.generics import ListAPIView
+from .serializers import RoomSerializer, BetSerializer, WagerSerializer
+from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm, SubmitWagerForm, SubmitBetForm
 
 # Create your views here.
 class DetailRoomList(TemplateView):
@@ -35,17 +36,48 @@ class SubmitRoomFormView(FormView):
 
 	def get_context_data(self, **kwargs):
 		context = super(SubmitRoomFormView, self).get_context_data(**kwargs)
-		context.update(submit_room=SubmitRoomForm())
-		context.update(submit_wager=SubmitWagerForm())
 		context.update(title="Please submit your bet.")
 		return context
+
+class SubmitBetFormView(FormView):
+	template_name = 'submit.html'
+	form_class = SubmitBetForm
+
+	def get_context_data(self, **kwargs):
+		context = super(SubmitBetFormView, self).get_context_data(**kwargs)
+		context.update(title="Please submit your bet.")
+		return context
+
+class WagerSetView(viewsets.ViewSet, ListAPIView):
+	model = Wager
+	serializer_class = WagerSerializer
+	queryset = Wager.objects.all()
+
+
+class BetSetView(viewsets.ModelViewSet, APIView):
+	queryset = Bet.objects.all()
+	serializer_class = BetSerializer
+
+	def create(self, request):
+		wager_data = []
+		wager_data.append((request.data.pop('amount1'), request.data.pop('condition1')))
+		wager_data.append((request.data.pop('amount2'), request.data.pop('condition2')))
+		bet_data = request.data
+		bet_data['wager_data'] = [{'amount':a,'condition':c} for a,c in wager_data]
+		bet_data['wagers'] = []
+		bet = BetSerializer(data=bet_data,context={'request':request})
+		if bet.is_valid():
+			bet.save(creator_id=request.user)
+			bet.save()
+			return Response(bet.data, status=status.HTTP_201_CREATED)
+		else:
+			return Response(bet.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class RoomSetView(viewsets.ModelViewSet, APIView):
 	queryset = Room.objects.all().order_by('-date_created')
 	serializer_class = RoomSerializer
 
-	def create(self, request):		
-		print request.is_ajax()
+	def create(self, request):
 		test = RoomSerializer(data=request.data)
 		if test.is_valid():
 			test.save(user=request.user)

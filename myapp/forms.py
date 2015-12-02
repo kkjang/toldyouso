@@ -4,8 +4,9 @@ from crispy_forms.layout import Submit, Layout, Field
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from djangular.forms import NgModelFormMixin, NgModelForm
 from djangular.styling.bootstrap3.forms import Bootstrap3FormMixin
-from .models import Room
+from .models import Room, Bet, Wager
 from django.contrib import auth
+from collections import OrderedDict
 
 def horizontal_helper(form):
     """ Adds the horizontal form classes
@@ -23,13 +24,27 @@ class SubmitRoomForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 		model = Room
 		exclude = ['date_created', 'ready', 'challenged_name', 'challenged_extra', 'user', 'challenged_bet']
 
+class SubmitBetForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
+	condition1 = forms.CharField()
+	amount1 = forms.CharField()
+	condition2 = forms.CharField()
+	amount2 = forms.CharField()
+
+	def __init__(self, *args, **kwargs):
+		kwargs.update(scope_prefix='bet_data')
+		super(SubmitBetForm, self).__init__(*args, **kwargs)
+		
+	class Meta:
+		model = Bet
+		fields = ['title']
+
 class SubmitWagerForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 	def __init__(self, *args, **kwargs):
 		kwargs.update(scope_prefix='room_data')
 		super(SubmitWagerForm, self).__init__(*args, **kwargs)
 	class Meta:
-		model = Room
-		exclude = ['date_created', 'ready', 'challenger_extra', 'user', 'challenger_bet', 'challenger_name', 'title']
+		model = Wager
+		exclude = ['user_id']
 
 class RequestRoomForm(forms.Form):
 	room_key = forms.CharField(label="Room Key")
