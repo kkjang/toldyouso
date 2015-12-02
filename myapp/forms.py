@@ -25,16 +25,18 @@ class SubmitRoomForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 		exclude = ['date_created', 'ready', 'challenged_name', 'challenged_extra', 'user', 'challenged_bet']
 
 class SubmitBetForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
-	title = forms.CharField()
+	condition1 = forms.CharField()
+	amount1 = forms.CharField()
+	condition2 = forms.CharField()
+	amount2 = forms.CharField()
 
 	def __init__(self, *args, **kwargs):
 		kwargs.update(scope_prefix='bet_data')
-		SubmitBetForm.base_fields = OrderedDict((k, SubmitBetForm.base_fields[k])for k in ['title', 'condition', 'amount'])
 		super(SubmitBetForm, self).__init__(*args, **kwargs)
 		
 	class Meta:
-		model = Wager
-		exclude = ['user_id']
+		model = Bet
+		fields = ['title']
 
 class SubmitWagerForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 	def __init__(self, *args, **kwargs):

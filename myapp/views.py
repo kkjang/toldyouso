@@ -51,10 +51,11 @@ class BetSetView(viewsets.ModelViewSet, APIView):
 	serializer_class = BetSerializer
 
 	def create(self, request):
-		amount = request.data.pop('amount')
-		condition = request.data.pop('condition')
+		wager_data = []
+		wager_data.append((request.data.pop('amount1'), request.data.pop('condition1')))
+		wager_data.append((request.data.pop('amount2'), request.data.pop('condition2')))
 		bet_data = request.data
-		bet_data['wager_data'] = {'amount':amount,'condition':condition}
+		bet_data['wager_data'] = [{'amount':a,'condition':c} for a,c in wager_data]
 		bet_data['wagers'] = []
 		bet = BetSerializer(data=bet_data,context={'request':request})
 		if bet.is_valid():
