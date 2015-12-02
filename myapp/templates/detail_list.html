@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
+    <div class="list-img jumbotron"></div>
+{% endblock %}
+
+{% block extra %}
 {% load djangular_tags %}
 {% angularjs %}
+
+<div class="list-space">
     <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllRooms()">
         <table class="table table-bordered">
             <tr ng-repeat="room in allRooms">
@@ -14,5 +20,7 @@
             </tr>
         </table>
     </div>
+</div>
 {% endangularjs %}
+    <div class="list-footer"></div>
 {% endblock %}
