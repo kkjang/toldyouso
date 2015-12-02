@@ -3,8 +3,7 @@
 {% block content %}
 	<h2>{{ title }}</h2>
 	<form ng-controller="RoomController" ng-app='myapp' ng-submit="submit()" >
-		{{submit_room}}
-		{{submit_wager}}
+		{{ form }}
 		<button>Submit</button>
 	</form>
 {% endblock %}
