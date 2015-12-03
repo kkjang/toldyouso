@@ -1,3 +1,6 @@
+#blackText{
+  color: black;
+}
 .tarheel-blue{
 	background-color: #007B95;
 	color: #FFFFFF;
@@ -209,4 +212,33 @@
     color: #ffffff;
     background-color: #ffffff;
   }
+}
+
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    width: 1000px; 
+    height: 500px;
+    /*margin-left: 120px;*/
+}
+
+.ngHeaderSortColumn{
+  background-color: #000000;
+}
+
+.ngCellText{
+  background-color: #808080;
+   overflow:visible;
+  height: 50px;
+  /*word-wrap: break-word;*/
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+#betFilterDropdown{
+  width: 175px;
 }
