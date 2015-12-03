@@ -22,6 +22,31 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     //     challengedCondition:  ""
     // }];
 
+
+
+    //CODE RELATED TO SELECTING THE FILTER
+    $scope.betFilterOptions = { title: "Bet Title",
+                                challengerCondition: "Challenger Condition",
+                                challengerAmount: "Challenger Amount",
+                                challengedCondition: "Challenged Condition",
+                                challengedAmount: "Challenged Amount", 
+                                dateCreated: "Date Created", 
+                                dateAccepted: "Date Accepted"};
+
+    // $scope.selectedFilter
+    $scope.titleSelected = true; 
+    $scope.challengerConditionSelected = false; 
+    $scope.challengerAmountSelected = false; 
+    $scope.challengedConditionSelected = false;
+    $scope.challengedAmountSelected = false;
+    $scope.dateCreatedSelected = false;
+    $scope.dateAcceptedSelected = false; 
+
+    $scope.$watch('betFilterOptions', function(newValue, oldValue) {
+        console.log("betFilterOptions oldValue = ", oldValue);
+        console.log("betFilterOptions newValue = ", newValue);
+    });
+
     $scope.searchBet = {title: "",
                         challengedBet: "",
                         challengedName: "", 
@@ -29,14 +54,20 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                         endDate: ""
                         };
 
-    $scope.$watch('searchBet', function(newValue, oldValue) {
-        console.log("searchBet oldValue = ", oldValue);
-        console.log("searchBet newValue = ", newValue);
-    });
+    // $scope.$watch('searchBet', function(newValue, oldValue) {
+    //     console.log("searchBet oldValue = ", oldValue);
+    //     console.log("searchBet newValue = ", newValue);
+    // });
+
+    $scope.updateOptionsView = function(){
+        
+    }
+
     $scope.dt1 = new Date();    
     $scope.dt2 = new Date();
 
     $scope.format = 'dd-MMMM-yyyy';
+    
     $scope.open = function($event, opened) {
         $event.preventDefault();
         $event.stopPropagation();
@@ -46,23 +77,17 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.status = {
         isopen: false
     };
-
-    $scope.betFilterOptions = ["Bet Title",
-                                "Date Created", 
-                                "Date Accepted", 
-                                "Challenged Bet",
-                                "Challenged Name"]
-
+    //SETTING UP THE ROOMS TABLE 
     $scope.gridOptions = { data: 'processedBets',
                             showFilter : true,
                             enableColumnResize : true,
-                           columnDefs:[
+                            columnDefs:[
                             {field:'betTitle', displayName: 'Bet Title'},
                             {field:'challengerCondition', displayName: "Challenger Condition"},
                             {field:'challengerAmount', displayName: "Challenger Amount"},
                             {field:'challengedCondition', displayName: "Challenged Condition"}, 
                             {field:'challengedAmount', displayName: "Challenged Amount"},
-                            {field:'date_created', displayName: "Date Created"}
+                            {field:'dateCreated', displayName: "Date Created"}
                            ]
                        };
 
@@ -102,8 +127,8 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                 for(i = 0; i <$scope.allBets.length; i++){
                     $scope.processedBet = [];
                     $scope.processedBet.betTitle = $scope.allBets[i].title;
+                    $scope.processedBet.dateCreated = $scope.allBets[i].date_created;
                     if($scope.allBets[i].wagers[0].user_id === $scope.allBets[i].creator_id){
-                        //ask kevin how to get challenger's name from user_id???
                         // $scope.processedBet.challengerName = $scope.allBets[i].wagers[0].user_name;
                         // $scope.processedBet.challengedName = $scope.allBets[i].wagers[1].user_name;
                         $scope.processedBet.challengerCondition = $scope.allBets[i].wagers[0].condition;
