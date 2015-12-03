@@ -59,8 +59,27 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     //     console.log("searchBet newValue = ", newValue);
     // });
 
-    $scope.updateOptionsView = function(){
+    $scope.updateOptionsView = function(selectedFilter){
+        if(selectedFilter === $scope.betFilterOptions.title){
+            $scope.titleSelected = true; 
+            $scope.challengerConditionSelected = false; 
+            $scope.challengerAmountSelected = false; 
+            $scope.challengedConditionSelected = false;
+            $scope.challengedAmountSelected = false;
+            $scope.dateCreatedSelected = false;
+            $scope.dateAcceptedSelected = false; 
+        }
+        else if(selectedFilter === $scope.betFilterOptions.challengerCondition){
+            $scope.titleSelected = false; 
+            $scope.challengerConditionSelected = true; 
+            $scope.challengerAmountSelected = false; 
+            $scope.challengedConditionSelected = false;
+            $scope.challengedAmountSelected = false;
+            $scope.dateCreatedSelected = false;
+            $scope.dateAcceptedSelected = false; 
+        }
         
+
     }
 
     $scope.dt1 = new Date();    

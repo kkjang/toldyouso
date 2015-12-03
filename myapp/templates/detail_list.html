@@ -18,7 +18,7 @@
                 <div class="col-md-2">
                     <!-- <div class="btn-group" uib-dropdown is-open="status.isopen"> -->
                         <!-- <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled"> <span class="caret"></span></button> -->
-                        <select id="betFilterDropdown" class="form-control btn btn-primary dropdown-toggle" ng-model="selectedFilter" ng-init="selectedFilter = betFilterOptions.title" ng-options="option for option in betFilterOptions" ng-change="updateOptionsView()">
+                        <select id="betFilterDropdown" class="form-control btn btn-primary dropdown-toggle" ng-model="selectedFilter" ng-init="selectedFilter = betFilterOptions.title" ng-options="option for option in betFilterOptions" ng-change="updateOptionsView(selectedFilter)">
                         </select>                        
                        <!--  <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button" 
                             ng-model="betFilterOptions"> 
