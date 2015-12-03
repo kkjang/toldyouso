@@ -148,6 +148,31 @@
   height: 150px;
   margin-bottom: 60px;
 }
+.create-bet h3{
+  font-size: 1.2em;
+}
+#bet-title {
+  font-size: 1.2em;
+  /*padding-left: 30%;*/
+  width: 60%;
+}
+.your-bet {
+  float: left;
+  width: 40%;
+  margin-right: 2px;
+}
+.friends-bet {
+  float: right;
+  width: 40%;
+  margin-right: 40px;
+}
+.small-text {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+.amount {
+  width: 60%;
+}
 .navbar-default {
   background-color: #ffffff;
   border-color: #ffffff;
