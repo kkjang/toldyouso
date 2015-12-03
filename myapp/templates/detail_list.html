@@ -27,29 +27,51 @@
                 </div>
             </div>
 
-            <div class="col-md-2">
-                <h5>Bet Title:</h5> <input type="text" class="form-control" ng-model="searchBet.title" ng-show="titleSelected"/>
+            <div class="col-md-2" ng-show="titleSelected">
+                <h5>Bet Title:</h5> <input type="text" class="form-control" ng-model="searchBet.title"/>
             </div>
-            <div class="col-md-2">
-                <h5>Challenged Bet:</h5> (include the $ sign) <input type="text" class="form-control" ng-model="searchBet.challengedBet"/>
+            <div class="col-md-2" ng-show="challengerConditionSelected">
+                <h5>Challenger Condition:</h5> <input type="text" class="form-control" ng-model="searchBet.challengerCondition"/>
+            <div>{{searchBet.challengedName}}</div>
             </div>
-            <div class="col-md-2">
-                <h5>Challenged Name:</h5> <input type="text" class="form-control" ng-model="searchBet.challengedName"/>
+             <div class="col-md-2" ng-show="challengerAmountSelected">
+                <h5>Challenger Amount:</h5> (include the $ sign) <input type="text" class="form-control" ng-model="searchBet.challengerAmount"/>
+            </div>
+            <div class="col-md-2" ng-show="challengedConditionSelected">
+                <h5>Challenged Condition:</h5> <input type="text" class="form-control" ng-model="searchBet.challengedCondition"/>
                 <div>{{searchBet.challengedName}}</div>
             </div>
-            <div class="col-md-3">
-                <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" ng-required="true" close-text="Close" ng-model="searchBet.startDate" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
+            <div class="col-md-2" ng-show="challengedAmountSelected">
+                <h5>Challenged Amount:</h5> (include the $ sign) <input type="text" class="form-control" ng-model="searchBet.challengedAmount"/>
             </div>
-            <div class="col-md-3">
-                <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" ng-required="true" close-text="Close" ng-model="searchBet.endDate"/>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="open($event,'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
+            <div class="dateCreatedFilter" class="col-md-6" ng-show="dateCreatedSelected">
+                <div class="col-md-3">
+                    <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" ng-required="true" close-text="Close" ng-model="searchBet.startDate" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
+                </div>
+                <div class="col-md-3">
+                    <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" ng-required="true" close-text="Close" ng-model="searchBet.endDate"/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open($event,'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </div>
             </div>
+            <div class="dateAcceptedFilter" class="col-md-6" ng-show="dateAcceptedSelected">
+                <div class="col-md-3">
+                    <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" ng-required="true" close-text="Close" ng-model="searchBet.startDate" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
+                </div>
+                <div class="col-md-3">
+                    <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" ng-required="true" close-text="Close" ng-model="searchBet.endDate"/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open($event,'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </div>
+            </div>
+             <div class="col-md-2">
+                <button ng-click="filter()" class="home-middle-nav-bar">filter</button>
+             </div>
         </form>
         
         <!-- <datepicker ng-model="searchBet.date"></datepicker> -->
-        <button ng-click="filter()" class="home-middle-nav-bar">filter</button>
     </div>
         <!--  <table class="table table-bordered">
                 <tr ng-repeat="bet in allBets">

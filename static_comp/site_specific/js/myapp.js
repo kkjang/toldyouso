@@ -33,7 +33,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                                 dateCreated: "Date Created", 
                                 dateAccepted: "Date Accepted"};
 
-    // $scope.selectedFilter
     $scope.titleSelected = true; 
     $scope.challengerConditionSelected = false; 
     $scope.challengerAmountSelected = false; 
@@ -42,10 +41,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.dateCreatedSelected = false;
     $scope.dateAcceptedSelected = false; 
 
-    $scope.$watch('betFilterOptions', function(newValue, oldValue) {
-        console.log("betFilterOptions oldValue = ", oldValue);
-        console.log("betFilterOptions newValue = ", newValue);
-    });
 
     $scope.searchBet = {title: "",
                         challengedBet: "",
@@ -54,34 +49,43 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                         endDate: ""
                         };
 
-    // $scope.$watch('searchBet', function(newValue, oldValue) {
-    //     console.log("searchBet oldValue = ", oldValue);
-    //     console.log("searchBet newValue = ", newValue);
-    // });
-
     $scope.updateOptionsView = function(selectedFilter){
-        if(selectedFilter === $scope.betFilterOptions.title){
-            $scope.titleSelected = true; 
+            //RESET SELECTED OPTION
+            $scope.titleSelected = false; 
             $scope.challengerConditionSelected = false; 
             $scope.challengerAmountSelected = false; 
             $scope.challengedConditionSelected = false;
             $scope.challengedAmountSelected = false;
             $scope.dateCreatedSelected = false;
             $scope.dateAcceptedSelected = false; 
+        
+        if(selectedFilter === $scope.betFilterOptions.title){
+            $scope.titleSelected = true; 
         }
         else if(selectedFilter === $scope.betFilterOptions.challengerCondition){
-            $scope.titleSelected = false; 
             $scope.challengerConditionSelected = true; 
-            $scope.challengerAmountSelected = false; 
-            $scope.challengedConditionSelected = false;
-            $scope.challengedAmountSelected = false;
-            $scope.dateCreatedSelected = false;
-            $scope.dateAcceptedSelected = false; 
         }
-        
+        else if(selectedFilter === $scope.betFilterOptions.challengerAmount){
+            $scope.challengerAmountSelected = true; 
+        }
+        else if(selectedFilter === $scope.betFilterOptions.challengedCondition){
+            $scope.challengedConditionSelected = true;
+        }
+        else if(selectedFilter === $scope.betFilterOptions.challengedAmount){
+            $scope.challengedAmountSelected = true;
+        }
+        else if(selectedFilter === $scope.betFilterOptions.dateCreated){
+            $scope.dateCreatedSelected = true;
+            console.log("$scope.dateCreatedSelected = ",  $scope.dateCreatedSelected);
 
+        }
+        else if(selectedFilter === $scope.betFilterOptions.dateAccepted){
+            $scope.dateAcceptedSelected = true;
+            console.log("$scope.dateAcceptedSelected =", $scope.dateAcceptedSelected);
+        }
     }
 
+    //SET UP DATE CALENDAR FILTER
     $scope.dt1 = new Date();    
     $scope.dt2 = new Date();
 
@@ -96,6 +100,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.status = {
         isopen: false
     };
+
     //SETTING UP THE ROOMS TABLE 
     $scope.gridOptions = { data: 'processedBets',
                             showFilter : true,
