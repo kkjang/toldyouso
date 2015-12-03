@@ -1,53 +1,13 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
-<h2>hey it works!</h2>
+    <div class="list-img jumbotron"></div>
 {% endblock %}
-<!-- 
-{% if invite == room.room_key %}
-	<h4>hey it works!</h4> -->
 
-<!-- after finding one wager -->
-<!-- should be bet.creator_id -->
+{% block extra %}
 
-<!-- {% if room.date_accepted %} -->
-
-	<!-- get userid from bets, display both peoples' names -->
-	<!-- display room info, have titles as "Your Criteria", etc. -->
-<!-- 
-{% else %}
-	{% if user.get_username == room.creator_id %}
- -->
-    	<!-- display room info, have titles as "Your Criteria", etc. -->
-		<!-- <button ng-click="Delete">Delete</button> -->
-
-	<!-- key passed through views.py -->
-	<!-- {% else if key == room.room_key%} -->
-
-		<!-- get userid from bets, display creator's name -->
-    	<!-- display room info, have titles as "Your Criteria", etc. -->
-		<!-- <button ng-click="accept_bet">Accept and Finalize Bet</button>
-
-	{ % else %}
-
-		"You don't have permission to view this page"
-
-	} -->
-
-
-	<!-- <td>{{ room.title }}</td>
-	Your criteria
-	{{ room.challenger_bet }}
-
-	Your bet
-	{{ room.challenger_}}
-    <td>{{ room.challenged_bet }}</td>
-    <td>{{ room.challenged_name }}</td>
-    <td>{{ room.date_created }}</td>
-    <td>{{ room.room_key }}</td>	 -->
-
-
-<!-- 	<h1>Welcome to the {{ room.title }}</h1>
+<div class="small-list-space">
+	<h1>Welcome to the {{ room.title }}</h1>
 	<p>On {{ room.date_created }}....</p>
 	<div class="row">
 		<div class="col-md-6">
@@ -60,4 +20,8 @@
 		</div>
 	</div>
 	<h2>{{ room.room_key }}</h2>
-{% endblock %} -->
+</div>
+
+<div class="list-footer"></div>
+
+{% endblock %}
