@@ -1,3 +1,4 @@
+import django_filters
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -7,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 
 from .models import Room, Bet, Wager
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
@@ -56,10 +57,16 @@ class WagerSetView(viewsets.ViewSet, ListAPIView):
 	serializer_class = WagerSerializer
 	queryset = Wager.objects.all()
 
+class BetFilter(django_filters.FilterSet):
+	class Meta:
+		model = Bet
+		fields = ['title']
 
 class BetSetView(viewsets.ModelViewSet, APIView):
 	queryset = Bet.objects.all()
 	serializer_class = BetSerializer
+	filter_backends = (filters.DjangoFilterBackend,)
+	filter_class = BetFilter
 
 	def create(self, request):
 		wager_data = []
