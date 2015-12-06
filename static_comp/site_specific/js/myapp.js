@@ -161,7 +161,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         $http.get(djangoUrl.reverse('bet-list'))
             .success(function (data){
                 $scope.allBets = data.results;
-                // console.log('$scope.allBets = ', $scope.allBets);
+                console.log('WEE　$scope.allBets = ', $scope.allBets);
                 var i = 0;
                 var j = 0;
                 for(i = 0; i <$scope.allBets.length; i++){
@@ -175,7 +175,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                         $scope.processedBet.challengerAmount = $scope.allBets[i].wagers[0].amount;
                         $scope.processedBet.challengedCondition = $scope.allBets[i].wagers[1].condition;
                         $scope.processedBet.challengedAmount = $scope.allBets[i].wagers[1].amount;
-
                     }
                     else if ($scope.allBets[i].wagers[1].user_id === $scope.allBets[i].creator_id){
                         // $scope.processedBet.challengerName = $scope.allBets[i].wagers[1].user_name
@@ -204,9 +203,11 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
 
     $scope.filterBets = function(){
         console.log("filtering bets");
+        console.log($scope.searchBet);
+        console.log($scope.searchBet.title);
         if($scope.titleSelected){
             console.log("Getting all bets where title = ", $scope.searchBet.title);
-            //$scope.getBetsByTitle
+            $scope.getBetsByTitle();
         }
         else if($scope.challengerConditionSelected){
             //$scope.getBetsByChallengerCondition
@@ -228,9 +229,21 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         }
     }
 
-    $scope.getBetByTitle = function(){
- 
+    $scope.getBetsByTitle = function(){
+        console.log("djrev = ", djangoUrl.reverse('bet-list'));
+        var query_string = djangoUrl.reverse();
+        query_string += 'title=' + $scope.searchBet.title;
+        console.log("query_string = ", query_string)
+        $http.get(query_string) // creates dynamic URL, sends in filter
+            .success(function (data){
+                $scope.allBets = data.results;
+            });
     }
+
+    //setinstone.com/angular/reverse/bet-list?title=asdf
+
+
+
 
 });
 
