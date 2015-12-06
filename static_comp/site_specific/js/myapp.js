@@ -231,8 +231,8 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
 
     $scope.getBetsByTitle = function(){
         console.log("djrev = ", djangoUrl.reverse('bet-list'));
-        var query_string = djangoUrl.reverse();
-        query_string += 'title=' + $scope.searchBet.title;
+        var query_string = djangoUrl.reverse('bet-list');
+        query_string += '&title=' + $scope.searchBet.title;
         console.log("query_string = ", query_string)
         $http.get(query_string) // creates dynamic URL, sends in filter
             .success(function (data){
