@@ -44,14 +44,43 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.dateCreatedSelected = false;
     $scope.dateAcceptedSelected = false; 
 
+
     //CONDITIONS THAT YOU'RE FILTERING BY
     $scope.searchBet = {title: "",
                         challengerCondition: "",
                         challengerAmount: "",
                         challengedCondition: "",
                         challengedAmount: "", 
-                        dateCreated: "", 
-                        dateAccepted: ""};
+                        dateCreated_start: "", 
+                        dateCreated_end: "", 
+                        dateAccepted_start: "",                       
+                        dateAccepted_end: "",
+                    };
+
+    //SET UP DATE CALENDAR FILTER
+    $scope.searchBet.dateCreated_start = new Date();    
+    $scope.searchBet.dateCreated_end = new Date();
+    $scope.searchBet.dateAccepted_start = new Date();
+    $scope.searchBet.dateAccepted_end = new Date();
+
+    $scope.format = 'dd-MMMM-yyyy';
+    
+    $scope.open = function($event, opened) {
+        $event.preventDefault();
+        $event.stopPropagation();
+        $scope[opened] = true;
+
+        console.log("dt1 = ", $scope.searchBet.dateCreated_start);
+        console.log("dt2 = ", $scope.searchBet.dateCreated_end);
+        console.log("dt3 = ", $scope.searchBet.dateAccepted_start);
+        console.log("dt4 = ", $scope.searchBet.dateAccepted_end);
+    };
+
+
+    $scope.status = {
+        isopen: false
+    };
+
     $scope.resetSearchBet = function(){
         //RESET SELECTED OPTIONS
         $scope.titleSelected = false; 
@@ -67,8 +96,10 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         $scope.searchBet.challengerAmount = "";
         $scope.searchBet.challengedCondition = "";
         $scope.searchBet.challengerAmount = "";
-        $scope.searchBet.dateCreated = "";
-        $scope.searchBet.dateAccepted = "";
+        $scope.searchBet.dateCreated_start = "";
+        $scope.searchBet.dateCreated_end = "";
+        $scope.searchBet.dateAccepted_start = "";
+        $scope.searchBet.dateAccepted_end = "";
     }
 
     $scope.updateOptionsView = function(selectedFilter){
@@ -101,22 +132,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         }
     }
 
-    //SET UP DATE CALENDAR FILTER
-    $scope.dt1 = new Date();    
-    $scope.dt2 = new Date();
-
-    $scope.format = 'dd-MMMM-yyyy';
     
-    $scope.open = function($event, opened) {
-        $event.preventDefault();
-        $event.stopPropagation();
-        $scope[opened] = true;
-    };
-
-    $scope.status = {
-        isopen: false
-    };
-
     //SETTING UP THE ROOMS TABLE 
     $scope.gridOptions = { data: 'processedBets',
                             showFilter : true,
@@ -156,38 +172,42 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     });
     }
 
+    $scope.processBets = function(data){
+        $scope.allBets = data.results;
+        console.log('WEE　$scope.allBets = ', $scope.allBets);
+        $scope.processedBets = []; // clear list
+
+        var i = 0;
+        for(i = 0; i <$scope.allBets.length; i++){
+            $scope.processedBet = [];
+            $scope.processedBet.betTitle = $scope.allBets[i].title;
+            $scope.processedBet.dateCreated = $scope.allBets[i].date_created;
+            if($scope.allBets[i].wagers[0].user_id === $scope.allBets[i].creator_id){
+                // $scope.processedBet.challengerName = $scope.allBets[i].wagers[0].user_name;
+                // $scope.processedBet.challengedName = $scope.allBets[i].wagers[1].user_name;
+                $scope.processedBet.challengerCondition = $scope.allBets[i].wagers[0].condition;
+                $scope.processedBet.challengerAmount = $scope.allBets[i].wagers[0].amount;
+                $scope.processedBet.challengedCondition = $scope.allBets[i].wagers[1].condition;
+                $scope.processedBet.challengedAmount = $scope.allBets[i].wagers[1].amount;
+            }
+            else if ($scope.allBets[i].wagers[1].user_id === $scope.allBets[i].creator_id){
+                // $scope.processedBetsocessedBet.challengerName = $scope.allBets[i].wagers[1].user_name
+                // $scope.processedBet.challengedName = $scope.allBets[i].wagers[0].user_name;
+                $scope.processedBet.challengerAmount = $scope.allBets[i].wagers[1].amount;
+                $scope.processedBet.challengerCondition = $scope.allBets[i].wagers[1].condition; 
+                $scope.processedBet.challengedCondition = $scope.allBets[i].wagers[0].condition;
+                $scope.processedBet.challengedAmount = $scope.allBets[i].wagers[0].amount;
+            }
+            // console.log("$scope.processedBet = ", $scope.processedBet); 
+            $scope.processedBets.push($scope.processedBet);  
+        }
+        // console.log("$scope.processedBets = ", $scope.processedBets);
+    }
 
     $scope.getAllBets = function(){
         $http.get(djangoUrl.reverse('bet-list'))
             .success(function (data){
-                $scope.allBets = data.results;
-                console.log('WEE　$scope.allBets = ', $scope.allBets);
-                var i = 0;
-                var j = 0;
-                for(i = 0; i <$scope.allBets.length; i++){
-                    $scope.processedBet = [];
-                    $scope.processedBet.betTitle = $scope.allBets[i].title;
-                    $scope.processedBet.dateCreated = $scope.allBets[i].date_created;
-                    if($scope.allBets[i].wagers[0].user_id === $scope.allBets[i].creator_id){
-                        // $scope.processedBet.challengerName = $scope.allBets[i].wagers[0].user_name;
-                        // $scope.processedBet.challengedName = $scope.allBets[i].wagers[1].user_name;
-                        $scope.processedBet.challengerCondition = $scope.allBets[i].wagers[0].condition;
-                        $scope.processedBet.challengerAmount = $scope.allBets[i].wagers[0].amount;
-                        $scope.processedBet.challengedCondition = $scope.allBets[i].wagers[1].condition;
-                        $scope.processedBet.challengedAmount = $scope.allBets[i].wagers[1].amount;
-                    }
-                    else if ($scope.allBets[i].wagers[1].user_id === $scope.allBets[i].creator_id){
-                        // $scope.processedBet.challengerName = $scope.allBets[i].wagers[1].user_name
-                        // $scope.processedBet.challengedName = $scope.allBets[i].wagers[0].user_name;
-                        $scope.processedBet.challengerAmount = $scope.allBets[i].wagers[1].amount;
-                        $scope.processedBet.challengerCondition = $scope.allBets[i].wagers[1].condition; 
-                        $scope.processedBet.challengedCondition = $scope.allBets[i].wagers[0].condition;
-                        $scope.processedBet.challengedAmount = $scope.allBets[i].wagers[0].amount;
-                    }
-                    // console.log("$scope.processedBet = ", $scope.processedBet); 
-                    $scope.processedBets.push($scope.processedBet);  
-                }
-                // console.log("$scope.processedBets = ", $scope.processedBets);
+                $scope.processBets(data);
             });
     }
 
@@ -204,28 +224,51 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.filterBets = function(){
         console.log("filtering bets");
         console.log($scope.searchBet);
-        console.log($scope.searchBet.title);
+        var query_string = djangoUrl.reverse('bet-list');
+        var update_bets = true;
+
         if($scope.titleSelected){
-            console.log("Getting all bets where title = ", $scope.searchBet.title);
-            $scope.getBetsByTitle();
+            query_string += '&title=' + $scope.searchBet.title;
+            console.log("title selected");
         }
         else if($scope.challengerConditionSelected){
-            //$scope.getBetsByChallengerCondition
+            query_string += '&condition=' + $scope.searchBet.challengerCondition;
         }
         else if($scope.challengerAmountSelected){
-            //$scope.getBetsByChallengerAmount
+            query_string += '&amount=' + $scope.searchBet.challengerAmount;
         }
         else if($scope.selectedFilter === $scope.betFilterOptions.challengedCondition){
-            //$scope.getBetsByChallengedCondition
+            query_string += '&condition=' + $scope.searchBet.challengedCondition;
         }
         else if($scope.challengedAmountSelected){
-            //$scope.getBetsByChallengedAmount
+            query_string += '&amount=' + $scope.searchBet.challengedAmount;
         }
-        else if($$scope.dateCreatedSelected){
-            //$scope.getBetsByDateCreated
+        else if($scope.dateCreatedSelected){
+            // console.log("sB.dC = ", $scope.searchBet.dateCreated_start);
+            // var sd = $scope.searchBet.dateCreated_start; 
+            // console.log("sd = ", sd);
+            // var start_string = "" + sd.getFullYear() + "-" + (sd.getMonth() + 1);
+            // console.log(start_string);
+
+            // gt = greater than, lt = less than
+            query_string += '&date_created__gt=' + $scope.searchBet.dateCreated_start.toISOString() + '&date_created__lt=' + $scope.searchBet.dateCreated_end.toISOString();
+            //?datetime_field__lt=2010-09-28+21:00:59&datetime_field__gt=2010-09-22+00:00:00
+            console.log("qs = ", query_string);
         }
         else if($scope.dateAcceptedSelected){
-            //$scope.getBetsByDateAccepted
+            query_string += '&=' + $scope.searchBet.dateAccepted;
+        }
+        else {
+            update_bets = false;
+        }
+        //query_string = "" + djangoUrl.reverse('bet-list') + '?datetime_field__lt=2010-09-28+21:00:59&datetime_field__gt=2010-09-22+00:00:00'
+
+        if (update_bets){
+        $http.get(query_string) // creates dynamic URL, sends in filter
+            .success(function (data){
+                $scope.processBets(data);
+                console.log("done!");
+            });
         }
     }
 
@@ -237,13 +280,10 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         $http.get(query_string) // creates dynamic URL, sends in filter
             .success(function (data){
                 $scope.allBets = data.results;
+                console.log("done!");
             });
     }
 
     //setinstone.com/angular/reverse/bet-list?title=asdf
-
-
-
-
 });
 
