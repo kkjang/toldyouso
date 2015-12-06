@@ -2,6 +2,7 @@
 {% load staticfiles %}
 <html>
 	<head>
+		<base href="/">
 		<link href="{% static 'bootstrap-3.3.5-dist/css/bootstrap.min.css' %}"
 			rel="stylesheet" media="screen">
 			<link href="{% static 'angular-1.4.8/ng-grid.css' %}"
@@ -52,6 +53,5 @@
 		<script src="{% static 'angular-1.4.8/ng-grid-2.0.14.min.js' %}"></script>
 		<script src="{% static 'djangular/js/django-angular.js' %}"></script>
 		<script src="{% static 'site_specific/js/myapp.js' %}"></script>
-
 	</body>
 </html>

@@ -18,6 +18,9 @@ from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegist
 class DetailRoomList(TemplateView):
 	template_name = "detail_list.html"
 
+class DetailRoom(TemplateView):
+	template_name = 'detail.html'
+
 def room_detail(request, pid):
 	# send request to django in json
 	# send back info about room
@@ -84,7 +87,6 @@ class RoomSetView(viewsets.ModelViewSet, APIView):
 			test.save()
 			return Response(test.data, status=status.HTTP_201_CREATED)
 		else:
-			print test.errors
 			return Response(test.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

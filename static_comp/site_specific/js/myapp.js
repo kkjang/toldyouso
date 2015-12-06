@@ -1,7 +1,10 @@
-var my_app = angular.module('myapp', ['ng.django.urls', 'ngGrid', 'ui.bootstrap'/* dependencies */]).config(function($httpProvider) {
+var my_app = angular.module('myapp', ['ng.django.urls', 'ngGrid', 'ui.bootstrap' /* dependencies */]).config(function($httpProvider, $locationProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    $locationProvider.html5Mode({
+        enabled: true,
+    });
 });
 
 my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, $location) {
@@ -176,5 +179,14 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             });
     }
 
+    $scope.getBet = function(){
+        var bet_id = $location.path().split('/')[2];
+        $http.get(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
+            .success(function (data){
+                $scope.bet_data = data; 
+                console.log('$scope.bet_data = ', $scope.bet_data);
+                console.log($scope);
+            })
+    }
 });
 
