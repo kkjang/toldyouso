@@ -1,8 +1,11 @@
 from django.contrib import admin
 
-from .models import Room
+from .models import Bet, Wager
 
-class KeyAdmin(admin.ModelAdmin):
-	readonly_fields = ('room_key',)
+class BetAdmin(admin.ModelAdmin):
+	list_display = ('title', 'key', 'date_created', 'date_accepted', 'creator_id')
 
-admin.site.register(Room, KeyAdmin)
+admin.site.register(Bet, BetAdmin)
+admin.site.register(Wager)
+
+
