@@ -15,7 +15,7 @@
         <div class="searchInput" class="row">
         <form novalidate class="simple-form" id="blackText">   
             <div class="col-md-12">
-                <div class="col-md-2">
+                <!-- <div class="col-md-2"> -->
                     <!-- <div class="btn-group" uib-dropdown is-open="status.isopen"> -->
                         <!-- <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled"> <span class="caret"></span></button> -->
                         <select id="betFilterDropdown" class="form-control btn btn-primary dropdown-toggle" ng-model="selectedFilter" ng-init="selectedFilter = betFilterOptions.title" ng-options="option for option in betFilterOptions" ng-change="updateOptionsView(selectedFilter)">
@@ -23,32 +23,32 @@
                        <!--  <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button" 
                             ng-model="betFilterOptions"> 
                         <li ng-repeat="option in betFilterOptions">{{option}}</li> -->
-                    </div>
+                <!-- </div> -->
                 </div>
             </div>
 
-            <div class="col-md-2" ng-show="titleSelected">
-                <h5>Bet Title:</h5> <input type="text" class="form-control" ng-model="searchBet.title"/>
+            <div class="search-text" ng-show="titleSelected">
+                <input type="text" class="form-control" ng-model="searchBet.title" placeholder="bet title"/>
             </div>
-            <div class="col-md-2" ng-show="challengerConditionSelected">
-                <h5>Challenger Condition:</h5> <input type="text" class="form-control" ng-model="searchBet.challengerCondition"/>
+            <div class="search-text" ng-show="challengerConditionSelected">
+                <input type="text" class="form-control" ng-model="searchBet.challengerCondition" placeholder="challenger condition"/>
             <div>{{searchBet.challengedName}}</div>
             </div>
-             <div class="col-md-2" ng-show="challengerAmountSelected">
-                <h5>Challenger Amount:</h5> (include the $ sign) <input type="text" class="form-control" ng-model="searchBet.challengerAmount"/>
+             <div class="search-text" ng-show="challengerAmountSelected">
+                <input type="text" class="form-control" ng-model="searchBet.challengerAmount"placeholder="challenger amount (include the $ sign)"/>
             </div>
-            <div class="col-md-2" ng-show="challengedConditionSelected">
-                <h5>Challenged Condition:</h5> <input type="text" class="form-control" ng-model="searchBet.challengedCondition"/>
+            <div class="search-text" ng-show="challengedConditionSelected">
+                <input type="text" class="form-control" ng-model="searchBet.challengedCondition" placeholder="challenged condition"/>
                 <div>{{searchBet.challengedName}}</div>
             </div>
-            <div class="col-md-2" ng-show="challengedAmountSelected">
-                <h5>Challenged Amount:</h5> (include the $ sign) <input type="text" class="form-control" ng-model="searchBet.challengedAmount"/>
+            <div class="search-text" ng-show="challengedAmountSelected">
+                <input type="text" class="form-control" ng-model="searchBet.challengedAmount" placeholder="challenged amount (include the $ sign)"/>
             </div>
             <div class="dateCreatedFilter" class="col-md-6" ng-show="dateCreatedSelected">
-                <div class="col-md-3">
+                <div class="calendar-field">
                     <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" ng-required="true" close-text="Close" ng-model="searchBet.startDate" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
                 </div>
-                <div class="col-md-3">
+                <div class="calendar-field">
                     <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" ng-required="true" close-text="Close" ng-model="searchBet.endDate"/>
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="open($event,'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
@@ -56,18 +56,18 @@
                 </div>
             </div>
             <div class="dateAcceptedFilter" class="col-md-6" ng-show="dateAcceptedSelected">
-                <div class="col-md-3">
+                <div class="calendar-field">
                     <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" ng-required="true" close-text="Close" ng-model="searchBet.startDate" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
                 </div>
-                <div class="col-md-3">
+                <div class="calendar-field">
                     <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" ng-required="true" close-text="Close" ng-model="searchBet.endDate"/>
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="open($event,'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
                   </span>
                 </div>
             </div>
-             <div class="col-md-2">
-                <button ng-click="filterBets()" class="home-middle-nav-bar">filter</button>
+             <div>
+                <button ng-click="filterBets()" id="filter-button">filter</button>
              </div>
         </form>
         
@@ -87,5 +87,4 @@
     </div>
 </div>
 {% endangularjs %}
-    <div class="list-footer"></div>
 {% endblock %}

@@ -95,20 +95,6 @@
 .home-middle-nav-bar input[type=submit]:hover {
   background:#003366; 
 }
-
-.pretty-submit button {
-  color: white;
-  font-size: 1.3em;
-  padding:5px 15px; 
-  background:#007B95; 
-  border:0 none;
-  cursor:pointer;
-  border-radius: 5px; 
-  margin-top: 5px;
-}
-.pretty-submit button:hover {
-  background:#003366; 
-}
 .list-img {
   background-image: url("../imgs/blue-pattern.jpg");
   background-position: 70% 60%;
@@ -151,6 +137,19 @@
   height: 150px;
   margin-bottom: 60px;
 }
+.pretty-submit button {
+  color: white;
+  font-size: 1.3em;
+  padding:5px 15px; 
+  background:#007B95; 
+  border:0 none;
+  cursor:pointer;
+  border-radius: 5px; 
+  margin-top: 5px;
+}
+.pretty-submit button:hover {
+  background:#003366; 
+}
 .create-bet h3{
   font-size: 1.2em;
 }
@@ -181,6 +180,7 @@
   border-color: #ffffff;
   font-weight: bold;
   margin-bottom:0px;
+  /*overflow: scroll;*/
 }
 .navbar-default .navbar-brand {
   color: #003366;
@@ -243,27 +243,59 @@
     border: 1px solid rgb(212,212,212);
     width: 1000px; 
     height: 500px;
-    /*margin-left: 120px;*/
 }
-
 .ngHeaderSortColumn{
-  background-color: #000000;
+  background-color: #007B95;
+  color: white;
 }
 
 .ngCellText{
-  background-color: #808080;
+  background-color: #B5F7F1;
    overflow:visible;
   height: 50px;
+  color: #007B95;
   /*word-wrap: break-word;*/
 }
 
-select {
+/*select {
     -webkit-appearance: none;
     -moz-appearance: none;
     text-indent: 1px;
     text-overflow: '';
-}
+}*/
 
 #betFilterDropdown{
   width: 175px;
+}
+.searchInput {
+  float: left;
+  text-align: center;
+  vertical-align: middle;
+  margin-bottom: 3%;
+  /*width: 200px;*/
+}
+.search-text {
+  width: 50%;
+  float: left;
+  padding-left: 1%;
+}
+.calendar-field {
+  width: 25%;
+  float: left;
+  padding-left: 1%;
+  margin-bottom: 3%;
+}
+#filter-button {
+  width: auto;
+  color: white;
+  font-size: 1.3em;
+  padding:5px 15px; 
+  margin-left: 1%;
+  background:#007B95; 
+  border:0 none;
+  cursor:pointer;
+  border-radius: 5px; 
+}
+#filter-button:hover {
+  background:#003366; 
 }
