@@ -123,7 +123,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                         enableColumnResize : true,
                         columnDefs:[
                         {field:'betTitle', displayName: 'Bet Title',
-                          cellTemplate: '<div ng-click="$window.location.reload"class="ngCellText" ng-class="col.colIndex()"><a id="testId" href="/bets/{{row.getProperty(\'betId\')}}" ng-bind="row.getProperty(col.field)" ng-click="$window.location.reload()"></a></div>'},
+                          cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a target="_self" ng-href="/bets/{{row.getProperty(\'betId\')}}" ng-bind="row.getProperty(col.field)"></a></div>'},
                             // cellTemplate: '<div class="ngCellText ng-scope col1 colt1" ng-bind="row.getProperty(col.field)"><a href="/bets/{{row.getProperty(\'betId\')}}"></div>'},
                         {field:'challengerCondition', displayName: "Challenger Condition"},
                         {field:'challengerAmount', displayName: "Challenger Amount"},
@@ -137,14 +137,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     // $scope.$watch('gridOptions', function(newValue, oldValue)){
     //      $window.location.reload;
     // }
-    $("#testId").click(function(evt) {
-         console.log("cell clicked!")
-         $window.location.reload;
-      })
-
-    $scope.reloadRoute = function() {
-       $route.reload();
-    }
 
     $scope.submit = function() {
         var in_data = angular.toJson($scope.bet_data);
@@ -168,7 +160,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             console.log(data);
             console.log(djangoUrl.reverse('room-list'));
             $scope.theBetKey = data.results; 
-    });
+        });
     }
 
 
