@@ -251,6 +251,10 @@
     background-color: #ffffff;
   }
 }
+#cannot-delete {
+  color: red;
+  float: right;
+}
 #delete-button {
   width: auto;
   color: white;

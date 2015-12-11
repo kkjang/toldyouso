@@ -252,6 +252,33 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         }
     }
 
+    $scope.deleteBet = function(a){
+        var bet_id = $location.path().split('/')[2];
+        console.log("bet_id =", bet_id);
+        // var current_bet = $scope.getBet();
+        // console.log("current_bet = ", current_bet);
+        // console.log("creator_id = ", current_bet.creator_id);
+        if ($scope.bet_data.creator_id == a) {
+            console.log("scope.bet_data.creator_id = ", $scope.bet_data.creator_id);
+            $http.delete(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
+                .success(function (data){
+                    console.log(data);
+                    $scope.getAllBets();
+                    $window.location = "/bets";
+                })
+        }
+        else {
+            var element = document.getElementById("cannot-delete");
+            element.innerHTML = "You cannot delete this bet.";
+        }
+
+    }    
+
+    $scope.acceptBet = function() {
+        $scope.getAllBets();
+        $window.location = "/bets";
+    }
+    
     // $scope.getBetsByTitle = function(){
     //     console.log("djrev = ", djangoUrl.reverse('bet-list'));
     //     var query_string = djangoUrl.reverse('bet-list');
@@ -264,18 +291,18 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     //         });
     // }
 
-    $(document).ready(function () {
-        switch_to_list_view();
-    });
+    // $(document).ready(function () {
+    //     switch_to_list_view();
+    // });
 
-     $.ajax("/angular/reverse/?djng_url_name=bet-list&title=test",
-       {type: "GET",
-        dataType: "json",
-        success: function (data) {
-            // console.log("ajax data returned = ", data);
-            $scope.processBets(data);
-        }
-       });
+    //  $.ajax("/angular/reverse/?djng_url_name=bet-list&title=test",
+    //    {type: "GET",
+    //     dataType: "json",
+    //     success: function (data) {
+    //         // console.log("ajax data returned = ", data);
+    //         $scope.processBets(data);
+    //     }
+    //    });
 
 
 
