@@ -30,6 +30,7 @@ class SubmitBetForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 	condition2 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': "Duke beats UNC, KMP takes 426 class to Spanky's, etc."}))
 	amount2 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': '$2, a bottle of wine, etc.'}))
 
+
 	def __init__(self, *args, **kwargs):
 		kwargs.update(scope_prefix='bet_data')
 		super(SubmitBetForm, self).__init__(*args, **kwargs)

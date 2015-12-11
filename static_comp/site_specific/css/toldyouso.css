@@ -285,7 +285,7 @@
   padding-left: 1%;
   margin-bottom: 3%;
 }
-#filter-button {
+.filter-button {
   width: auto;
   color: white;
   font-size: 1.3em;
@@ -299,3 +299,37 @@
 #filter-button:hover {
   background:#003366; 
 }
+.minis {
+  width: 100%;
+  margin-top:20px;
+  margin-left: auto; 
+  margin-right: auto;
+  padding-left: 5%;
+  padding-right: 5%;
+   text-align: justify;
+  -ms-text-justify: distribute-all-lines;
+  text-justify: distribute-all-lines;
+}
+.minis a{
+  vertical-align: top;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  min-width: 200px;
+}
+.minis h4 {
+  padding-left: 65px;
+}
+.stretch {
+  width: 100%;
+  display: inline-block;
+  font-size: 0;
+  line-height: 0
+}
+.mini-img {
+  color: #007B95;
+  /*margin-left: auto;*/
+  width: 250px;
+  /*height: auto;*/
+}
+

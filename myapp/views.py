@@ -141,7 +141,7 @@ def register_user(request):
 		if form.is_valid():
 			user = form.save(commit=False)
 			user.save()
-			return HttpResponseRedirect(reverse('thanks'))
+			return HttpResponseRedirect(reverse('hello'))
 	else:
 		form = UserRegisterForm()
 	title = "Enter your information here."
@@ -152,7 +152,7 @@ def login_user(request):
 		form = UserLoginForm(data=request.POST)
 		if form.is_valid():
 			login(request, form.get_user())
-			return HttpResponseRedirect(reverse('thanks'))
+			return HttpResponseRedirect(reverse('index'))
 	else:
 		form = UserLoginForm()
 	title = "Login Here."
@@ -160,5 +160,5 @@ def login_user(request):
 
 def logout_user(request):
 	logout(request)
-	return HttpResponseRedirect(reverse('thanks'))
+	return HttpResponseRedirect(reverse('bye'))
 
