@@ -252,6 +252,8 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         }
     }
 
+    
+
     // $scope.getBetsByTitle = function(){
     //     console.log("djrev = ", djangoUrl.reverse('bet-list'));
     //     var query_string = djangoUrl.reverse('bet-list');
@@ -264,18 +266,18 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     //         });
     // }
 
-    $(document).ready(function () {
-        switch_to_list_view();
-    });
+    // $(document).ready(function () {
+    //     switch_to_list_view();
+    // });
 
-     $.ajax("/angular/reverse/?djng_url_name=bet-list&title=test",
-       {type: "GET",
-        dataType: "json",
-        success: function (data) {
-            // console.log("ajax data returned = ", data);
-            $scope.processBets(data);
-        }
-       });
+    //  $.ajax("/angular/reverse/?djng_url_name=bet-list&title=test",
+    //    {type: "GET",
+    //     dataType: "json",
+    //     success: function (data) {
+    //         // console.log("ajax data returned = ", data);
+    //         $scope.processBets(data);
+    //     }
+    //    });
 
 
 
