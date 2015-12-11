@@ -70,21 +70,8 @@
                 <button ng-click="getAllBets()" class="filter-button">Show All Bets</button>
              </div>
         </form>
-        
-        <!-- <datepicker ng-model="searchBet.date"></datepicker> -->
     </div>
-        <!--  <table class="table table-bordered">
-                <tr ng-repeat="bet in allBets">
-                    <td>{{ bet.title }}</td>
-                    <td>{{ bet.challenged_bet }}</td>
-                    <td>{{ bet.challenged_name }}</td>
-                    <td>{{ bet.date_created }}</td>
-                    <td>{{ bet.room_key }}</td>
-                </tr>
-            </table> -->
         <div  style="table-layout: fixed; width: 100%" class="gridStyle" ng-grid="gridOptions"></div>
-        <button ng-click="getBet()">getBet()</button>
-        <a href="/bets/{{processedBet.betId}}">test</a>
     </div>
 </div>
 {% endblock %}
