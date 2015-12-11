@@ -208,15 +208,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             })
     }
 
-    $scope.getBetById = function(bet_id){
-        $http.get(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
-            .success(function (data){
-                $scope.bet_data = data; 
-                console.log('$scope.bet_data = ', $scope.bet_data);
-                console.log($scope);
-            })
-    }
-
     $scope.filterBets = function(){
         console.log("filtering bets");
         console.log($scope.searchBet);
@@ -261,8 +252,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         }
     }
 
-<<<<<<< Updated upstream
-=======
     $scope.deleteBet = function(a){
         var bet_id = $location.path().split('/')[2];
         console.log("bet_id =", bet_id);
@@ -285,7 +274,11 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
 
     }    
 
->>>>>>> Stashed changes
+    $scope.acceptBet = function() {
+        $scope.getAllBets();
+        $window.location = "/bets";
+    }
+    
     // $scope.getBetsByTitle = function(){
     //     console.log("djrev = ", djangoUrl.reverse('bet-list'));
     //     var query_string = djangoUrl.reverse('bet-list');
@@ -298,18 +291,18 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     //         });
     // }
 
-    $(document).ready(function () {
-        switch_to_list_view();
-    });
+    // $(document).ready(function () {
+    //     switch_to_list_view();
+    // });
 
-     $.ajax("/angular/reverse/?djng_url_name=bet-list&title=test",
-       {type: "GET",
-        dataType: "json",
-        success: function (data) {
-            // console.log("ajax data returned = ", data);
-            $scope.processBets(data);
-        }
-       });
+    //  $.ajax("/angular/reverse/?djng_url_name=bet-list&title=test",
+    //    {type: "GET",
+    //     dataType: "json",
+    //     success: function (data) {
+    //         // console.log("ajax data returned = ", data);
+    //         $scope.processBets(data);
+    //     }
+    //    });
 
 
 
