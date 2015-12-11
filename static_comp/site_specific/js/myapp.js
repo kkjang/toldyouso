@@ -252,7 +252,13 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         }
     }
 
-    
+    $scope.deleteBet = function(){
+        var bet_id = $location.path().split('/')[2];
+        $http.delete(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
+            .success(function (data){
+                console.log(data);
+            })
+    }    
 
     // $scope.getBetsByTitle = function(){
     //     console.log("djrev = ", djangoUrl.reverse('bet-list'));
