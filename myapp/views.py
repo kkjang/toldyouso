@@ -36,11 +36,11 @@ class SubmitRoomFormView(FormView):
 
 	def get_context_data(self, **kwargs):
 		context = super(SubmitRoomFormView, self).get_context_data(**kwargs)
-		context.update(title="Please submit your bet.")
+		context.update(title="New Bet:")
 		return context
 
 class SubmitBetFormView(FormView):
-	template_name = 'submit.html'
+	template_name = 'submit_bet.html'
 	form_class = SubmitBetForm
 
 	def get_context_data(self, **kwargs):
