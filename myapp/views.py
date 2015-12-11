@@ -16,7 +16,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from .serializers import BetSerializer, WagerSerializer
-from .forms import UserLoginForm, SubmitWagerForm, SubmitBetForm
+from .forms import UserLoginForm, SubmitWagerForm, SubmitBetForm, UserRegisterForm
 from rest_framework.exceptions import PermissionDenied
 
 
