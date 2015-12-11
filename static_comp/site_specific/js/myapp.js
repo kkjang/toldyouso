@@ -123,7 +123,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                             enableColumnResize : true,
                             columnDefs:[
               {field:'betTitle', displayName: 'Bet Title',
-                          cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a target="_self" ng-href="/bets/{{row.getProperty(\'betId\')}}" ng-bind="row.getProperty(col.field)"></a></div>'},               {field:'challengerCondition', displayName: "Challenger Condition"},
+                          cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a target="_self" ng-href="/bet/{{row.getProperty(\'betId\')}}" ng-bind="row.getProperty(col.field)"></a></div>'},               {field:'challengerCondition', displayName: "Challenger Condition"},
                             {field:'challengerAmount', displayName: "Challenger Amount"},
                             {field:'challengedCondition', displayName: "Challenged Condition"}, 
                             {field:'challengedAmount', displayName: "Challenged Amount"},
@@ -232,8 +232,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     }
 
     $scope.acceptBet = function(){
-        console.log("NEW SCOPE");
-        console.log($scope);
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth()+1; //January is 0!
@@ -308,26 +306,21 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         }
     }
 
-    $scope.deleteBet = function(a){
+    $scope.deleteBet = function(){
         var bet_id = $location.path().split('/')[2];
-        console.log("bet_id =", bet_id);
-        // var current_bet = $scope.getBet();
-        // console.log("current_bet = ", current_bet);
-        // console.log("creator_id = ", current_bet.creator_id);
-        if ($scope.bet_data.creator_id == a) {
-            console.log("scope.bet_data.creator_id = ", $scope.bet_data.creator_id);
-            $http.delete(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
-                .success(function (data){
-                    console.log(data);
-                    $scope.getAllBets();
-                    $window.location = "/bets";
-                })
-        }
-        else {
-            var element = document.getElementById("cannot-delete");
-            element.innerHTML = "You cannot delete this bet.";
-        }
-
+        $http.delete(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
+            .then(function (response) {
+                console.log(response);
+                $scope.bet_data = response.data; 
+                console.log('$scope.bet_data = ', $scope.bet_data);
+                console.log($scope);
+                $window.location.href = djangoUrl.reverse('thanks')
+            }, function(response) {
+                console.log(response);
+                if (response.status == 403){
+                    $window.location.href = djangoUrl.reverse('403_error');
+                }
+            });
     }    
 
     //setinstone.com/angular/reverse/bet-list?title=asdf

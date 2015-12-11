@@ -76,10 +76,17 @@ class WagerSetView(viewsets.ViewSet, ListAPIView):
 class BetSetView(viewsets.ModelViewSet):
 	serializer_class = BetSerializer
 
+	def destroy(self, *args, **kwargs):
+		instance = self.get_object()
+		print instance.creator_id
+		if instance.creator_id != self.request.user:
+			raise PermissionDenied
+		else:
+			super(BetSetView, self).destroy(args, kwargs)
+			return Response(instance)
+
 	def partial_update(self,*args, **kwargs):
 		instance = self.get_object()
-		print 'instance is', instance
-		print self.request.data
 		bet = BetSerializer(instance, data = self.request.data, partial=True)
 		if bet.is_valid():
 			created_bet = bet.save()

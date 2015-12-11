@@ -53,13 +53,11 @@
 
         <br><br><br><br><br>
         {% if user.is_authenticated and bet_data.date_accepted = null %}
-        <button ng-click="deleteBet({{ user.id }})" id="delete-button">Delete Bet</button>
-        <button ng-click="acceptBet()" id="accept-button">Accept Bet</button>
+        <button ng-click="deleteBet()" id="delete-button">Delete Bet</button>
         <br>
         <br>
         <p id="cannot-delete"> </p>
         {% endif %}
-
 
         </div>
     </div>
