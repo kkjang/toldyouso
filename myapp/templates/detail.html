@@ -5,7 +5,12 @@
 
 <div class="small-list-space">
     <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getBet()">
+        {{ user.id }}
+        {{ user.username }}
         {% verbatim %}
+        asdf2
+        {{ user.id }}
+        {% user.id %}
         <h2>{{ bet_data.title }}</h2>
         {% endverbatim %}
         {% if user.is_authenticated and user.user_id = bet_data.creator_id and bet_data.date_accepted = null %}

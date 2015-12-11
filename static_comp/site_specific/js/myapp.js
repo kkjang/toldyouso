@@ -215,6 +215,17 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             });
     }
 
+    $scope.getUserBets = function(){
+        var uid = $location.path().split('/')[2];
+        console.log(uid);
+        $http.get(djangoUrl.reverse('bet-list'), {'pk':uid})
+            .success(function (data){
+                $scope.bet_data = data; 
+                console.log('$scope.bet_data = ', $scope.bet_data);
+                console.log($scope);
+            })
+    }
+
     $scope.getBet = function(){
         var bet_id = $location.path().split('/')[2];
         $http.get(djangoUrl.reverse('bet-detail', {'pk':bet_id}))

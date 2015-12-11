@@ -23,6 +23,9 @@ class DetailRoomList(TemplateView):
 class DetailRoom(TemplateView):
 	template_name = 'detail.html' 
 
+class DetailProfile(TemplateView):
+	template_name = 'profile.html'
+
 def sendmail(request):
 	# email = EmailMessage('Hello', 'World', to=['pl@live.unc.edu'])
 	# email.send()

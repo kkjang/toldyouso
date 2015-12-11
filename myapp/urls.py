@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^room/edit/(?P<room_key>[^/]+)/$', views.submit_challenged, name='edit'),
     url(r'^room/error/$', TemplateView.as_view(template_name='room_ready_error.html'), name='room_ready_error'),
     url(r'^email/$', views.sendmail, name='email'),
+    url(r'^users/(?P<pid>[0-9]+)/$', views.DetailProfile.as_view(), name='profile'),
 ]

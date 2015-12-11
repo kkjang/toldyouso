@@ -3,8 +3,17 @@
 
 {% block content %}
 
+<h2>
+<!-- {{ user.first_name }}
+{{ user.last_name }}
+ -->{{ user.username }}</h2>
 {% verbatim %}		
 <div class="list-space">
+	<!-- <span style="float:right"><a href="{% url 'index' %}">{{ user.get_username }}</a></li>
+	{% if user.is_authenticated % }
+        <h2>{{ user.user_id }}</h2>asdf
+    { % endif %} -->
+	<!-- <h2>{{ user.get_username }}</h2> -->
     <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getUserBets()">
         <table class="table table-bordered" ng-model="bet_data">
             <tr>
