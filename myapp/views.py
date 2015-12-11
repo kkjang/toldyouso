@@ -1,3 +1,5 @@
+import django_filters
+import datetime
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -7,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 
 from .models import Room, Bet, Wager
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
@@ -17,6 +19,9 @@ from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegist
 # Create your views here.
 class DetailRoomList(TemplateView):
 	template_name = "detail_list.html"
+
+class DetailRoom(TemplateView):
+	template_name = 'detail.html'
 
 def room_detail(request, pid):
 	# send request to django in json
@@ -53,9 +58,7 @@ class WagerSetView(viewsets.ViewSet, ListAPIView):
 	serializer_class = WagerSerializer
 	queryset = Wager.objects.all()
 
-
-class BetSetView(viewsets.ModelViewSet, APIView):
-	queryset = Bet.objects.all()
+class BetSetView(viewsets.ModelViewSet):
 	serializer_class = BetSerializer
 
 	def create(self, request):
@@ -73,6 +76,64 @@ class BetSetView(viewsets.ModelViewSet, APIView):
 		else:
 			return Response(bet.errors, status=status.HTTP_400_BAD_REQUEST)
 
+	def get_queryset(self):
+		queryset = Bet.objects.all()
+		title = self.request.query_params.get('title', None)
+		creator = self.request.query_params.get('creator', None)
+		condition = self.request.query_params.get('condition', None)
+		amount = self.request.query_params.get('amount', None)
+		date_created_start = self.request.query_params.get('date_created_start', None)
+		date_created_end = self.request.query_params.get('date_created_end', None)
+		date_accepted_start = self.request.query_params.get('date_accepted_start', None)
+		date_accepted_end = self.request.query_params.get('date_accepted_start', None)
+		if title is not None:
+			queryset = queryset.filter(title__contains=title)
+		elif condition is not None:
+			wagers = Wager.objects.filter(condition__contains=condition)
+			if creator == 'true':
+				bet_list = []
+				for bet in queryset:
+					if bet.wagers.all()[0] in wagers:
+						bet_list.append(bet)
+				queryset = bet_list
+			else:
+				bet_list = []
+				for bet in queryset:
+					if bet.wagers.all()[1] in wagers:
+						bet_list.append(bet)
+				queryset = bet_list
+		elif amount is not None:
+			wagers = Wager.objects.filter(amount__contains=amount)
+			print wagers
+			if creator == 'true':
+				bet_list = []
+				for bet in queryset:
+					if bet.wagers.all()[0] in wagers:
+						bet_list.append(bet)
+				queryset = bet_list
+			else:
+				bet_list = []
+				for bet in queryset:
+					if bet.wagers.all()[1] in wagers:
+						bet_list.append(bet)
+				queryset = bet_list
+		elif date_created_start is not None:
+			year, month, day = map(int, date_created_start.split('-'))
+			date_created_start = datetime.date(year, month+1, day)
+			year, month, day = map(int, date_created_end.split('-'))
+			date_created_end = datetime.date(year, month+1, day)
+			queryset = queryset.filter(date_created__range=(date_created_start, date_created_end))
+		else:
+			if date_accepted_start is not None or date_accepted_end is not None:
+				year, month, day = map(int, date_accepted_start.split('-'))
+				date_accepted_start = datetime.date(year, month+1, day)
+				year, month, day = map(int, date_created_end.split('-'))
+				date_accepted_end = datetime.date(year, month+1, day)
+				print date_accepted_start, date_accepted_end
+				queryset = queryset.filter(date_accepted__range=(date_accepted_start, date_accepted_end))
+		print queryset
+		return queryset
+
 class RoomSetView(viewsets.ModelViewSet, APIView):
 	queryset = Room.objects.all().order_by('-date_created')
 	serializer_class = RoomSerializer
@@ -84,7 +145,6 @@ class RoomSetView(viewsets.ModelViewSet, APIView):
 			test.save()
 			return Response(test.data, status=status.HTTP_201_CREATED)
 		else:
-			print test.errors
 			return Response(test.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

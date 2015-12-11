@@ -3,22 +3,19 @@
 
 {% block content %}
 
-<div class="small-list-space">
-	<h1>Welcome to the {{ room.title }}</h1>
-	<p>On {{ room.date_created }}....</p>
-	<div class="row">
-		<div class="col-md-6">
-			<h4>{{ room.challenger_name }} bet that:</h4>
-			<p>{{ room.challenger_bet }}</p>
-		</div>
-		<div class="col-md-6">
-			<h4>{{ room.challenged_name }} bet that:</h4>
-			<p>{{ room.challenged_bet }}</p>
-		</div>
-	</div>
-	<h2>{{ room.room_key }}</h2>
+{% verbatim %}		
+<div class="list-space">
+    <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getBet()">
+        <table class="table table-bordered" ng-model="bet_data">
+            <tr>
+                <td>{{ bet_data.title }}</td>
+                <td>{{ bet_data.key }}</td>
+                <td>{{ bet_data.date_created }}</td>
+            </tr>
+        </table>
+    </div>
 </div>
-
 <div class="list-footer"></div>
 
+{% endverbatim %}
 {% endblock %}

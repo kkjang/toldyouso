@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 {% block content %}
-{% load djangular_tags %}
-{% angularjs %}
 
 <style>
 .jumbotron {
     padding: 10px;
 }
 </style>
-
+<!-- LOOK INTO THIS LATER! -->
+<base href="/">
 <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getAllBets()">
     <div class="container">
         <div class="searchInput" class="row">
@@ -46,10 +45,10 @@
             </div>
             <div class="dateCreatedFilter" class="col-md-6" ng-show="dateCreatedSelected">
                 <div class="calendar-field">
-                    <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" ng-required="true" close-text="Close" ng-model="searchBet.startDate" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="searchBet.dateCreated_start" is-open="opened1" ng-required="true" close-text="Close" ng-model="searchBet.startDate" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
                 </div>
                 <div class="calendar-field">
-                    <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" ng-required="true" close-text="Close" ng-model="searchBet.endDate"/>
+                    <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="searchBet.dateCreated_end" is-open="opened2" ng-required="true" close-text="Close" ng-model="searchBet.endDate"/>
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="open($event,'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
                   </span>
@@ -57,17 +56,18 @@
             </div>
             <div class="dateAcceptedFilter" class="col-md-6" ng-show="dateAcceptedSelected">
                 <div class="calendar-field">
-                    <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt1" is-open="opened1" ng-required="true" close-text="Close" ng-model="searchBet.startDate" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    <h5>Start date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="searchBet.dateAccepted_start" is-open="opened1" ng-required="true" close-text="Close" ng-model="searchBet.startDate" /><button type="button" class="btn btn-default" ng-click="open($event,'opened1')"><i class="glyphicon glyphicon-calendar"></i></button>
                 </div>
                 <div class="calendar-field">
-                    <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt2" is-open="opened2" ng-required="true" close-text="Close" ng-model="searchBet.endDate"/>
+                    <h5>End date:</h5> <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="searchBet.dateAccepted_end" is-open="opened2" ng-required="true" close-text="Close" ng-model="searchBet.endDate"/>
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-default" ng-click="open($event,'opened2')"><i class="glyphicon glyphicon-calendar"></i></button>
                   </span>
                 </div>
             </div>
              <div>
-                <button ng-click="filterBets()" class="filter-button">filter</button>
+                <button ng-click="filterBets()" class="filter-button">Filter</button>
+                <button ng-click="getAllBets()" class="filter-button">Show All Bets</button>
              </div>
         </form>
         
@@ -83,8 +83,8 @@
                 </tr>
             </table> -->
         <div  style="table-layout: fixed; width: 100%" class="gridStyle" ng-grid="gridOptions"></div>
-        <!-- <button ng-click="getKeyFromUrl()">getKeyFromUrl()</button> -->
+        <button ng-click="getBet()">getBet()</button>
+        <a href="/bets/{{processedBet.betId}}">test</a>
     </div>
 </div>
-{% endangularjs %}
 {% endblock %}
