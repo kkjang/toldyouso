@@ -315,6 +315,7 @@
   display: inline-block;
   *display: inline;
   zoom: 1;
+  min-width: 200px;
 }
 .minis h4 {
   padding-left: 65px;

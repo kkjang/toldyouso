@@ -141,10 +141,10 @@ def register_user(request):
 		if form.is_valid():
 			user = form.save(commit=False)
 			user.save()
-			return HttpResponseRedirect(reverse('thanks'))
+			return HttpResponseRedirect(reverse('hello'))
 	else:
 		form = UserRegisterForm()
-		title = "Enter your information here."
+	title = "Enter your information here."
 	return render(request, 'registration/registration.html', {'form': form, 'title': title})
 
 def login_user(request):
