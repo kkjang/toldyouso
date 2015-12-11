@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="small-list-space">
+	<div class="container text-center">
+		<h1>Welcome to SetInStone!</h1>
+		<br>
+		<h3>Where would you like to go first?</h3>
+	</div>
+</div>
+
+	<div class="minis">
+		<a href="{% url 'index' %}">
+			<h4>Home Page</h4>
+			<img src="../static/site_specific/imgs/home.png" alt="Home Page Mini" class="mini-img"></a>
+		<a href="{% url 'getstarted' %}">
+			<h4>Getting Started</h4>
+			<img src="../static/site_specific/imgs/getting-started.png" alt="Getting Started Mini" class="mini-img"></a>
+		<a href="{% url 'submit' %}">
+			<h4>Create a Bet</h4>
+			<img src="../static/site_specific/imgs/create-bet.png" alt="Create Bet Mini" class="mini-img"></a>
+		<span class="stretch"></span>
+	</div>
+
+<div class="list-footer"></div>
+{% endblock %}

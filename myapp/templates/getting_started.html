@@ -9,21 +9,26 @@
 			<div class="row getting-started">
 				<div class="col-md-3">
 					<h2>Step 1</h2>
-					<p>Make a bet with a friend!</p>
-					<p>Follow this <a href="{% url 'submit' %}">link</a> or use the top bar to create a new bet.</p>
+					<p>Create an account and log in.</p>
+					{% if user.is_authenticated %}
+					<p>Looks like you've already completed this step!</p>
+					{% else %}
+					<p>Don't have an account yet?  <a href="{% url 'register' %}">Create one</a>.  Have one already?  <a href="{% url 'login' %}">Sign in</a>.</p>
+					{% endif %}
 				</div>
 				<div class="col-md-1"></div>
 				<div class="col-md-3">
 					<h2>Step 2</h2>
-					<p>Give your bet key to your friend.</p>
-					<p>Your friend can access your bet via this <a href="{% url 'find' %}">link</a>.</p>
+					<p>Make a bet with a friend.</p>
+					<p>Follow this <a href="{% url 'submit' %}">link</a> or use the top bar to create a new bet.</p>
 				</div>
 				<div class="col-md-1"></div>
 				<div class="col-md-3">
 					<h2>Step 3</h2>
-					<p>Your friend can now use the key to place their side of the bet.</p>
-					<p>E-mail yourself the bet URL so you can keep track of the bet!</p>
+					<p>Enter your friend's email address.</p>
+					<p>We'll send him/her an email invitation to accept your bet.</p>
 				</div>
+				<div class="col-md-1"></div>
 			</div>
 			<br><br>
 			<p>That's all there is to it!  Go ahead and try making your first bet if you haven't already.  If you have any questions, check out our <a href="http://localhost:8000/faq/">FAQ page</a>.</p>

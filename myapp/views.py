@@ -144,7 +144,7 @@ def register_user(request):
 			return HttpResponseRedirect(reverse('thanks'))
 	else:
 		form = UserRegisterForm()
-	title = "Enter your information here."
+		title = "Enter your information here."
 	return render(request, 'registration/registration.html', {'form': form, 'title': title})
 
 def login_user(request):
@@ -152,7 +152,7 @@ def login_user(request):
 		form = UserLoginForm(data=request.POST)
 		if form.is_valid():
 			login(request, form.get_user())
-			return HttpResponseRedirect(reverse('thanks'))
+			return HttpResponseRedirect(reverse('index'))
 	else:
 		form = UserLoginForm()
 	title = "Login Here."
@@ -160,5 +160,5 @@ def login_user(request):
 
 def logout_user(request):
 	logout(request)
-	return HttpResponseRedirect(reverse('thanks'))
+	return HttpResponseRedirect(reverse('bye'))
 
