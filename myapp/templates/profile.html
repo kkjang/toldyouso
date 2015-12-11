@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block content %}
+
+{% verbatim %}		
+<div class="list-space">
+    <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getUserBets()">
+        <table class="table table-bordered" ng-model="bet_data">
+            <tr>
+                <td>{{ bet_data.title }}</td>
+                <td>{{ bet_data.key }}</td>
+                <td>{{ bet_data.date_created }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="list-footer"></div>
+
+{% endverbatim %}
+{% endblock %}

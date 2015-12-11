@@ -25,11 +25,11 @@ class SubmitRoomForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
 		exclude = ['date_created', 'ready', 'challenged_name', 'challenged_extra', 'user', 'challenged_bet']
 
 class SubmitBetForm(NgModelFormMixin, NgModelForm, Bootstrap3FormMixin):
-	condition1 = forms.CharField(required=True)
-	amount1 = forms.CharField(required=True)
-	condition2 = forms.CharField(required=True)
-	amount2 = forms.CharField(required=True)
-	email = forms.EmailField(required=True)
+	condition1 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'UNC beats Duke, KMP takes 426 class to Topo, etc.'}), required=True)
+	amount1 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': '$5, a beer, etc.'}), required=True)
+	condition2 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': "Duke beats UNC, KMP takes 426 class to Spanky's, etc."}), required=True)
+	amount2 = forms.CharField(widget=forms.TextInput(attrs={'placeholder': '$2, a bottle of wine, etc.'}), required=True)
+	email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'kmp@cs.unc.edu, kevinjang7@gmail.com, etc.'}), required=True)
 
 	def __init__(self, *args, **kwargs):
 		kwargs.update(scope_prefix='bet_data')
