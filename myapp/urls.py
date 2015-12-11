@@ -6,8 +6,8 @@ from . import views
 
 router = routers.SimpleRouter()
 router.register(r'rooms', views.RoomSetView)
-router.register(r'wagers', views.WagerSetView)
-router.register(r'bets', views.BetSetView, 'bet')
+router.register(r'wager', views.WagerSetView)
+router.register(r'bet', views.BetSetView, 'bet')
 
 
 urlpatterns = [
@@ -18,8 +18,8 @@ urlpatterns = [
     url(r'^register/', views.register_user, name='register'),
     url(r'^login/', views.login_user, name='login'),
     url(r'^logout/', views.logout_user, name='logout'),
-    url(r'^bets/$', views.DetailRoomList.as_view(), name='detail_list'),
-    url(r'^bets/(?P<pid>[0-9]+)/$', views.DetailRoom.as_view(), name='detail'),
+    url(r'^bet/$', views.DetailRoomList.as_view(), name='detail_list'),
+    url(r'^bet/(?P<pid>[0-9]+)/$', views.DetailRoom.as_view(), name='detail'),
     url(r'^room/thanks/$', TemplateView.as_view(template_name='thanks.html'), name='thanks'),
     url(r'^bye/$', TemplateView.as_view(template_name='logged_out.html'), name='bye'),
     url(r'^hello/$', TemplateView.as_view(template_name='hello.html'), name='hello'),
