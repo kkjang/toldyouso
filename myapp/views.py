@@ -20,7 +20,6 @@ from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegist
 class DetailRoomList(TemplateView):
 	template_name = "detail_list.html"
 
-<<<<<<< HEAD
 class DetailRoom(TemplateView):
 	template_name = 'detail.html' 
 
@@ -32,10 +31,6 @@ def sendmail(request):
 		return HttpResponseRedirect('/faq/')
 	except:
 		return HttpResponseRedirect('/room/')
-=======
-class DetailRoom(TemplateView): 
-	template_name = 'detail.html'
->>>>>>> origin/Peter_redirect_bettable_to_bet_details
 
 def room_detail(request, pid):
 	# send request to django in json
