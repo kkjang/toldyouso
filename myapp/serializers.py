@@ -1,12 +1,8 @@
-from .models import Room, Bet, Wager
+from .models import Bet, Wager
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 
-class RoomSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = Room
-		fields = '__all__'
 
 class WagerSerializer(serializers.ModelSerializer):
 	user_id = serializers.PrimaryKeyRelatedField(required=False, read_only=True)

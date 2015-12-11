@@ -10,13 +10,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout, authenticate, login
 from django.core.mail import send_mail
 
-from .models import Room, Bet, Wager
+from .models import Bet, Wager
 from rest_framework import viewsets, status, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
-from .serializers import RoomSerializer, BetSerializer, WagerSerializer
-from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm, SubmitWagerForm, SubmitBetForm
+from .serializers import BetSerializer, WagerSerializer
+from .forms import UserLoginForm, SubmitWagerForm, SubmitBetForm
 from rest_framework.exceptions import PermissionDenied
 
 
@@ -38,27 +38,6 @@ class DetailRoom(TemplateView):
 class AcceptDetailRoom(TemplateView):
 	template_name = 'accept_detail.html'
 
-def room_detail(request, pid):
-	# send request to django in json
-	# send back info about room
-	# let django figure out how to render page
-	room = get_object_or_404(Room, pk=pid)
-	# assertion error, has to do with {'room': room}	
-	return render(request, 'detail.html', {'room': room})
-
-def test_query_string (request):
-	invite = request.GET.get('i')
-	return render(request, 'test-for-string.html', {'invite': invite})
-
-class SubmitRoomFormView(FormView):
-	template_name = 'submit.html'
-	form_class = SubmitRoomForm
-
-	def get_context_data(self, **kwargs):
-		context = super(SubmitRoomFormView, self).get_context_data(**kwargs)
-		context.update(title="New Bet:")
-		return context
-
 class SubmitBetFormView(FormView):
 	template_name = 'submit_bet.html'
 	form_class = SubmitBetForm
@@ -79,11 +58,11 @@ class BetSetView(viewsets.ModelViewSet):
 	def destroy(self, *args, **kwargs):
 		instance = self.get_object()
 		print instance.creator_id
-		if instance.creator_id != self.request.user:
-			raise PermissionDenied
+		if instance.creator_id == self.request.user and instance.date_accepted is None:
+			instance.delete()
+			return Response(status=status.HTTP_204_NO_CONTENT) 
 		else:
-			super(BetSetView, self).destroy(args, kwargs)
-			return Response(instance)
+			raise PermissionDenied
 
 	def partial_update(self,*args, **kwargs):
 		instance = self.get_object()
@@ -198,66 +177,6 @@ class BetSetView(viewsets.ModelViewSet):
 				queryset = queryset.filter(date_accepted__range=(date_accepted_start, date_accepted_end))
 		print 'new queryset', queryset
 		return queryset
-
-class RoomSetView(viewsets.ModelViewSet, APIView):
-	queryset = Room.objects.all().order_by('-date_created')
-	serializer_class = RoomSerializer
-
-	def create(self, request):
-		test = RoomSerializer(data=request.data)
-		if test.is_valid():
-			test.save(user=request.user)
-			test.save()
-			return Response(test.data, status=status.HTTP_201_CREATED)
-		else:
-			return Response(test.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-def submit_room(request):
-
-	if request.method == 'POST':
-		if 'submit' in request.POST:
-			form = SubmitRoomForm(request.POST)
-			if form.is_valid():
-				room = form.save(commit=False)
-				room.user = request.user
-				room.date_created = timezone.now()
-				room.ready = False
-				room.save()
-				return HttpResponseRedirect(reverse('thanks'))
-		else:
-			form = SubmitRoomForm()
-	else:
-		form = SubmitRoomForm()
-	title = "Welcome challenger... here is your room!"
-	return render(request, 'submit.html', {'form': form, 'title': title})
-
-def find_room_from_key(request):
-	if request.method == 'POST':
-		form = RequestRoomForm(request.POST)
-		if form.is_valid():
-			room_key = form.cleaned_data['room_key'].encode('utf8')
-			return HttpResponseRedirect(reverse('edit', kwargs={'room_key':room_key}))
-	else:
-		form = RequestRoomForm()
-	title = "Enter your room key to access the bet room."
-	return render(request, 'submit.html', {'form': form, 'title': title})
-
-def submit_challenged(request, room_key):
-	room_instance = Room.objects.get(room_key = room_key)
-	if Room.objects.get(room_key=room_key).ready:
-		return redirect('room_ready_error')
-	if request.method == 'POST':
-		form = ResponseRoomForm(request.POST, instance=room_instance)
-		if form.is_valid():
-			room = form.save(commit=False)
-			room.ready = True
-			room.save()
-			return HttpResponseRedirect(reverse('thanks'))
-	else:
-		form = ResponseRoomForm()
-	title = "Success! Enter your side of the bet."
-	return render(request, 'submit.html', {'form': form, 'title': title})
 
 def register_user(request):
 

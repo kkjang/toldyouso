@@ -314,7 +314,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                 $scope.bet_data = response.data; 
                 console.log('$scope.bet_data = ', $scope.bet_data);
                 console.log($scope);
-                $window.location.href = djangoUrl.reverse('thanks')
+                $window.location.href = djangoUrl.reverse('detail_list')
             }, function(response) {
                 console.log(response);
                 if (response.status == 403){
@@ -323,5 +323,4 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             });
     }    
 
-    //setinstone.com/angular/reverse/bet-list?title=asdf
 });
