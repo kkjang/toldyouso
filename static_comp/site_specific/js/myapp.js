@@ -208,6 +208,15 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             })
     }
 
+    $scope.getBetById = function(bet_id){
+        $http.get(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
+            .success(function (data){
+                $scope.bet_data = data; 
+                console.log('$scope.bet_data = ', $scope.bet_data);
+                console.log($scope);
+            })
+    }
+
     $scope.filterBets = function(){
         console.log("filtering bets");
         console.log($scope.searchBet);
@@ -252,6 +261,31 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         }
     }
 
+<<<<<<< Updated upstream
+=======
+    $scope.deleteBet = function(a){
+        var bet_id = $location.path().split('/')[2];
+        console.log("bet_id =", bet_id);
+        // var current_bet = $scope.getBet();
+        // console.log("current_bet = ", current_bet);
+        // console.log("creator_id = ", current_bet.creator_id);
+        if ($scope.bet_data.creator_id == a) {
+            console.log("scope.bet_data.creator_id = ", $scope.bet_data.creator_id);
+            $http.delete(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
+                .success(function (data){
+                    console.log(data);
+                    $scope.getAllBets();
+                    $window.location = "/bets";
+                })
+        }
+        else {
+            var element = document.getElementById("cannot-delete");
+            element.innerHTML = "You cannot delete this bet.";
+        }
+
+    }    
+
+>>>>>>> Stashed changes
     // $scope.getBetsByTitle = function(){
     //     console.log("djrev = ", djangoUrl.reverse('bet-list'));
     //     var query_string = djangoUrl.reverse('bet-list');
