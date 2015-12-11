@@ -7,8 +7,11 @@
     <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getBet()">
         {{ user.id }}
         {{ user.username }}
+        {{ bet_data.date_accepted }}
+
         {% verbatim %}
         asdf2
+        {{ bet_data.date_accepted }}
         {{ user.id }}
         {% user.id %}
         <h2>{{ bet_data.title }}</h2>
@@ -50,11 +53,13 @@
         {% endif %}
 
         <br><br><br><br><br>
+		<button ng-click="acceptBet()" id="accept-button">Accept Bet</button>
+
         {% if user.is_authenticated and bet_data.date_accepted = null %}
-        	<button ng-click="dosomething()" id="delete-button">Delete Bet</button>
-        	{% if user.user_id != bet_data.creator_id %}
-        		<button ng-click="dosomething()" id="accept-button">Accept Bet</button>
-        	{% endif %}
+        	<button ng-click="deleteBet()" id="delete-button">Delete Bet</button>
+	        	<!-- {% if user.user_id != bet_data.creator_id %}
+	        		<button ng-click="acceptBet()" id="accept-button">Accept Bet</button>
+	        	{% endif %} -->
         {% endif %}
 
     </div>

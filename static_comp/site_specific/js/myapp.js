@@ -108,7 +108,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         else if(selectedFilter === $scope.betFilterOptions.dateCreated){
             $scope.dateCreatedSelected = true;
             console.log("$scope.dateCreatedSelected = ",  $scope.dateCreatedSelected);
-
         }
         else if(selectedFilter === $scope.betFilterOptions.dateAccepted){
             $scope.dateAcceptedSelected = true;
@@ -148,6 +147,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
 
     $scope.submit = function() {
         var in_data = angular.toJson($scope.bet_data);
+        console.log(in_data);
         $http.post(djangoUrl.reverse('bet-list'), in_data)
             .success(function(out_data) {
                 console.log("Success");
@@ -218,7 +218,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.getUserBets = function(){
         var uid = $location.path().split('/')[2];
         console.log(uid);
-        $http.get(djangoUrl.reverse('bet-list'), {'pk':uid})
+        $http.get(djangoUrl.reverse('bet-list'), {'pk':uid}) // not pk
             .success(function (data){
                 $scope.bet_data = data; 
                 console.log('$scope.bet_data = ', $scope.bet_data);
@@ -278,6 +278,34 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                 // console.log("done!");
             });
         }
+    }
+
+    $scope.acceptBet = function(){
+        var bet_id = $location.path().split('/')[2];
+        // $http.get(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
+        //     .success(function (data){
+        //         $scope.bet_data = data; 
+        //         console.log('$scope.bet_data = ', $scope.bet_data);
+        //         console.log($scope);
+        //     })
+        var today = new Date();
+        console.log(today);
+        // todayins = today.getFullYear() + '-' +
+        // today.toDateString();
+                    // query_string += '&date_created_start=' + $scope.searchBet.dateCreated_start.getFullYear() + '-' + $scope.searchBet.dateCreated_start.getMonth() + '-' + $scope.searchBet.dateCreated_start.getDate() + '&date_created_end=' + $scope.searchBet.dateCreated_end.getFullYear() + '-' + $scope.searchBet.dateCreated_end.getMonth() + '-' + $scope.searchBet.dateCreated_end.getDate();
+        var in_data = {"id": bet_id, "date_accepted": today}
+        // user id, current time
+        $http.post(djangoUrl.reverse('bet-list'), in_data)
+            .success(function (data){
+                console.log(data);
+            })
+    }
+
+    $scope.deleteBet = function(){
+        $http.delete(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
+            .success(function (data){
+                console.log(data);
+            })
     }
 
     // $scope.getBetsByTitle = function(){
