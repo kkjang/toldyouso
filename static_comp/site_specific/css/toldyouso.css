@@ -175,6 +175,19 @@
 .amount {
   width: 60%;
 }
+#accept-button  {
+  color: white;
+  font-size: 1.3em;
+  padding:5px 15px; 
+  background:#007B95; 
+  border:0 none;
+  cursor:pointer;
+  border-radius: 5px; 
+  margin-top: 5px;
+}
+#accept-button:hover {
+  background:#003366; 
+}
 .navbar-default {
   background-color: #ffffff;
   border-color: #ffffff;
@@ -238,7 +251,22 @@
     background-color: #ffffff;
   }
 }
-
+#delete-button {
+  width: auto;
+  color: white;
+  font-size: 1.3em;
+  padding:5px 15px; 
+  /*margin-left: 1%;*/
+  background:#ff6666; 
+  border:0 none;
+  cursor:pointer;
+  border-radius: 5px;
+  float: right;
+  margin-right: 20%
+}
+#delete-button:hover {
+  background:red; 
+}
 .gridStyle {
     border: 1px solid rgb(212,212,212);
     width: 1000px; 
@@ -331,5 +359,8 @@
   /*margin-left: auto;*/
   width: 250px;
   /*height: auto;*/
+}
+.bet-info strong {
+  text-decoration: underline;
 }
 
