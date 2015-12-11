@@ -7,12 +7,12 @@ from . import views
 router = routers.SimpleRouter()
 router.register(r'rooms', views.RoomSetView)
 router.register(r'wagers', views.WagerSetView)
-router.register(r'bets', views.BetSetView)
+router.register(r'bets', views.BetSetView, 'bet')
 
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
-	url(r'^room/', include(router.urls)),
+	url(r'^api/', include(router.urls)),
     url(r'^getstarted/$', TemplateView.as_view(template_name='getting_started.html'), name='getstarted'),
     url(r'^faq/$', TemplateView.as_view(template_name='faq.html'), name='faq'),
     url(r'^register/', views.register_user, name='register'),

@@ -57,16 +57,8 @@ class WagerSetView(viewsets.ViewSet, ListAPIView):
 	serializer_class = WagerSerializer
 	queryset = Wager.objects.all()
 
-class BetFilter(django_filters.FilterSet):
-	class Meta:
-		model = Bet
-		fields = ['title']
-
-class BetSetView(viewsets.ModelViewSet, APIView):
-	queryset = Bet.objects.all()
+class BetSetView(viewsets.ModelViewSet):
 	serializer_class = BetSerializer
-	filter_backends = (filters.DjangoFilterBackend,)
-	filter_class = BetFilter
 
 	def create(self, request):
 		wager_data = []
@@ -82,6 +74,14 @@ class BetSetView(viewsets.ModelViewSet, APIView):
 			return Response(bet.data, status=status.HTTP_201_CREATED)
 		else:
 			return Response(bet.errors, status=status.HTTP_400_BAD_REQUEST)
+
+	def get_queryset(self):
+		queryset = Bet.objects.all()
+		title = self.request.query_params.get('title', None)
+		if title is not None:
+			queryset = queryset.filter(title__contains=title)
+		print queryset
+		return queryset
 
 class RoomSetView(viewsets.ModelViewSet, APIView):
 	queryset = Room.objects.all().order_by('-date_created')

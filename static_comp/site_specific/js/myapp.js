@@ -236,6 +236,8 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         console.log("query_string = ", query_string)
         $http.get(query_string) // creates dynamic URL, sends in filter
             .success(function (data){
+                console.log($scope);
+                console.log($scope.allBets);
                 $scope.allBets = data.results;
             });
     }
