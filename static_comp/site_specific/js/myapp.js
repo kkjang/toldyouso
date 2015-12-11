@@ -58,11 +58,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         $event.preventDefault();
         $event.stopPropagation();
         $scope[opened] = true;
-
-        console.log("dt1 = ", $scope.searchBet.dateCreated_start);
-        console.log("dt2 = ", $scope.searchBet.dateCreated_end);
-        console.log("dt3 = ", $scope.searchBet.dateAccepted_start);
-        console.log("dt4 = ", $scope.searchBet.dateAccepted_end);
     };
 
 
