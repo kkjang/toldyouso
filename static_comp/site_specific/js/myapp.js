@@ -118,20 +118,33 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
 
     
     //SETTING UP THE ROOMS TABLE 
-    $scope.gridOptions = { data: 'processedBets',
-                            showFilter : true,
-                            enableColumnResize : true,
-                            columnDefs:[
-                            {field:'betTitle', displayName: 'Bet Title',         
-                                cellTemplate: '<div class="ngCellText ng-scope col1 colt1" ng-click="displayBetContents()" ng-bind="row.getProperty(col.field)"></div>'},
-                            {field:'challengerCondition', displayName: "Challenger Condition"},
-                            {field:'challengerAmount', displayName: "Challenger Amount"},
-                            {field:'challengedCondition', displayName: "Challenged Condition"}, 
-                            {field:'challengedAmount', displayName: "Challenged Amount"},
-                            {field:'dateCreated', displayName: "Date Created"},
-                            {field:'dateAccepted', displayName: "Date Accepted"}
-                           ]
-                       };
+   $scope.gridOptions = { data: 'processedBets',
+                        // showFilter : true,
+                        enableColumnResize : true,
+                        columnDefs:[
+                        {field:'betTitle', displayName: 'Bet Title',
+                          cellTemplate: '<div ng-click="$window.location.reload"class="ngCellText" ng-class="col.colIndex()"><a id="testId" href="/bets/{{row.getProperty(\'betId\')}}" ng-bind="row.getProperty(col.field)" ng-click="$window.location.reload()"></a></div>'},
+                            // cellTemplate: '<div class="ngCellText ng-scope col1 colt1" ng-bind="row.getProperty(col.field)"><a href="/bets/{{row.getProperty(\'betId\')}}"></div>'},
+                        {field:'challengerCondition', displayName: "Challenger Condition"},
+                        {field:'challengerAmount', displayName: "Challenger Amount"},
+                        {field:'challengedCondition', displayName: "Challenged Condition"}, 
+                        {field:'challengedAmount', displayName: "Challenged Amount"},
+                        {field:'dateCreated', displayName: "Date Created"},
+                        {field:'dateAccepted', displayName: "Date Accepted"}
+                       ]
+                   };
+
+    // $scope.$watch('gridOptions', function(newValue, oldValue)){
+    //      $window.location.reload;
+    // }
+    $("#testId").click(function(evt) {
+         console.log("cell clicked!")
+         $window.location.reload;
+      })
+
+    $scope.reloadRoute = function() {
+       $route.reload();
+    }
 
     $scope.submit = function() {
         var in_data = angular.toJson($scope.bet_data);
@@ -145,12 +158,12 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     }
 
     $scope.getKeyFromUrl = function(){
-        console.log('current $location.absUrl = ', $scope.currentLocation);
+        console.log('current URL = ', window.location.href );
         console.log('inside function, $location = ', $location);
         $http({ //toldyouso.com/room/rooms/1?title=abc
-            url: $location.absUrl, //toldyouso.com/room/rooms/1
+            url: window.location.href, //toldyouso.com/room/rooms/1
             method: "GET",
-            params: {title: $location.search()} //CONTINUE HERE! Not sure what to put here!abc
+            params: {title: $location.search()} 
         })
         .success(function (data){
             console.log(data);
@@ -159,14 +172,16 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     });
     }
 
+
     $scope.processBets = function(data){
         $scope.allBets = data.results;
-        console.log('WEE　$scope.allBets = ', $scope.allBets);
+        // console.log('WEE　$scope.allBets = ', $scope.allBets);
         $scope.processedBets = []; // clear list
 
         var i = 0;
         for(i = 0; i <$scope.allBets.length; i++){
             $scope.processedBet = [];
+            $scope.processedBet.betId = $scope.allBets[i].id;
             $scope.processedBet.betTitle = $scope.allBets[i].title;
             $scope.processedBet.dateCreated = $scope.allBets[i].date_created;
             if($scope.allBets[i].wagers[0].user_id === $scope.allBets[i].creator_id){
@@ -266,18 +281,18 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     //         });
     // }
 
-    $(document).ready(function () {
-        switch_to_list_view();
-    });
+    // $(document).ready(function () {
+    //     switch_to_list_view();
+    // });
 
-     $.ajax("/angular/reverse/?djng_url_name=bet-list&title=test",
-       {type: "GET",
-        dataType: "json",
-        success: function (data) {
-            // console.log("ajax data returned = ", data);
-            $scope.processBets(data);
-        }
-       });
+    //  $.ajax("/angular/reverse/?djng_url_name=bet-list&title=test",
+    //    {type: "GET",
+    //     dataType: "json",
+    //     success: function (data) {
+    //         // console.log("ajax data returned = ", data);
+    //         $scope.processBets(data);
+    //     }
+    //    });
 
 
 
