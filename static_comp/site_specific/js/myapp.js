@@ -122,9 +122,8 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                             showFilter : true,
                             enableColumnResize : true,
                             columnDefs:[
-                            {field:'betTitle', displayName: 'Bet Title',         
-                                cellTemplate: '<div class="ngCellText ng-scope col1 colt1" ng-click="displayBetContents()" ng-bind="row.getProperty(col.field)"></div>'},
-                            {field:'challengerCondition', displayName: "Challenger Condition"},
+              {field:'betTitle', displayName: 'Bet Title',
+                          cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a target="_self" ng-href="/bets/{{row.getProperty(\'betId\')}}" ng-bind="row.getProperty(col.field)"></a></div>'},               {field:'challengerCondition', displayName: "Challenger Condition"},
                             {field:'challengerAmount', displayName: "Challenger Amount"},
                             {field:'challengedCondition', displayName: "Challenged Condition"}, 
                             {field:'challengedAmount', displayName: "Challenged Amount"},
@@ -166,6 +165,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         var i = 0;
         for(i = 0; i <$scope.allBets.length; i++){
             $scope.processedBet = [];
+            $scope.processedBet.betId = $scope.allBets[i].id;
             $scope.processedBet.betTitle = $scope.allBets[i].title;
             $scope.processedBet.dateCreated = $scope.allBets[i].date_created;
             $scope.processedBet.dateAccepted = $scope.allBets[i].date_accepted;
@@ -254,6 +254,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                 $scope.bet_data = response.data; 
                 console.log('$scope.bet_data = ', $scope.bet_data);
                 console.log($scope);
+                $window.location.href = djangoUrl.reverse('thanks')
             }, function(response) {
                 console.log(response);
                 if (response.status == 403){
@@ -307,18 +308,27 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         }
     }
 
-    // $scope.getBetsByTitle = function(){
-    //     console.log("djrev = ", djangoUrl.reverse('bet-list'));
-    //     var query_string = djangoUrl.reverse('bet-list');
-    //     query_string += '&title=' + $scope.searchBet.title;
-    //     console.log("query_string = ", query_string)
-    //     $http.get(query_string) // creates dynamic URL, sends in filter
-    //         .success(function (data){
-    //             $scope.allBets = data.results;
-    //             console.log("done!");
-    //         });
-    // }
+    $scope.deleteBet = function(a){
+        var bet_id = $location.path().split('/')[2];
+        console.log("bet_id =", bet_id);
+        // var current_bet = $scope.getBet();
+        // console.log("current_bet = ", current_bet);
+        // console.log("creator_id = ", current_bet.creator_id);
+        if ($scope.bet_data.creator_id == a) {
+            console.log("scope.bet_data.creator_id = ", $scope.bet_data.creator_id);
+            $http.delete(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
+                .success(function (data){
+                    console.log(data);
+                    $scope.getAllBets();
+                    $window.location = "/bets";
+                })
+        }
+        else {
+            var element = document.getElementById("cannot-delete");
+            element.innerHTML = "You cannot delete this bet.";
+        }
 
+    }    
 
     //setinstone.com/angular/reverse/bet-list?title=asdf
 });

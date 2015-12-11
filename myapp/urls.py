@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^room/thanks/$', TemplateView.as_view(template_name='thanks.html'), name='thanks'),
     url(r'^bye/$', TemplateView.as_view(template_name='logged_out.html'), name='bye'),
     url(r'^hello/$', TemplateView.as_view(template_name='hello.html'), name='hello'),
-    url(r'^room/submit/$', views.SubmitBetFormView.as_view(), name='submit'),
+    url(r'^submit/$', views.SubmitBetFormView.as_view(), name='submit'),
     url(r'^room/find/$', views.find_room_from_key, name='find'),
     url(r'^room/edit/(?P<room_key>[^/]+)/$', views.submit_challenged, name='edit'),
     url(r'^403/$', TemplateView.as_view(template_name='403.html'), name='403_error'),
