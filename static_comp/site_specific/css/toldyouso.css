@@ -360,4 +360,7 @@
   width: 250px;
   /*height: auto;*/
 }
+.bet-info strong {
+  text-decoration: underline;
+}
 

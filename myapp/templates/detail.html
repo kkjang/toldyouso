@@ -11,26 +11,35 @@
         <br>
         <br>
 
+        <div class="bet-info">
         {% if not user.is_authenticated %}
-        	{% verbatim %}
-        	<h4>User {{ bet_data.wagers[0].user_id }} bet <strong>{{ bet_data.wagers[0].amount }}</strong> that <strong>{{ bet_data.wagers[0].condition }}</strong>.</h4>
+    		{% verbatim %}
+        	<h4>User {{ bet_data.wagers[0].user_id }} bet ____<strong>{{ bet_data.wagers[0].amount }}</strong>____ that ____<strong>{{ bet_data.wagers[0].condition }}</strong>____.</h4>
         	<br>
-        	<h4>User {{ bet_data.wagers[1].user_id }} bet <strong>{{ bet_data.wagers[1].amount }}</strong> that <strong>{{ bet_data.wagers[1].condition }}</strong>.</h4>
-       		{% endverbatim %}
+        	{% endverbatim %}
+        	{% if bet_data.date_accepted == null %}
+        		{% verbatim %}
+        		<h4>The opponent bet ____<strong>{{ bet_data.wagers[1].amount }}</strong>____ that ____<strong>{{ bet_data.wagers[1].condition }}</strong>____.</h4>
+        		{% endverbatim %}
+        	{% else %}
+        		{% verbatim %}
+        		<h4>User {{ bet_data.wagers[1].user_id }} bet ____<strong>{{ bet_data.wagers[1].amount }}</strong>____ that ____<strong>{{ bet_data.wagers[1].condition }}</strong>____.</h4>
+        		{% endverbatim %}
+        	{% endif %}
         {% else %}
-	        {% if user.user_id = bet_data.creator_id %}
+	        {% if user.id == bet_data.creator_id %}
 	        	{% verbatim %}
 		        <h4>You bet ____<strong>{{ bet_data.wagers[0].amount }}</strong>____ that ____<strong>{{ bet_data.wagers[0].condition }}</strong>____.</h4>
 		        <br>
 		        <h4>Your friend bet ____<strong>{{ bet_data.wagers[1].amount }}</strong>____ that ____<strong>{{ bet_data.wagers[1].condition }}</strong>____.</h4>
 		        {% endverbatim %}
         	{% else %}
-	        	{% verbatim %}
-		        <h4>Your friend bet ____<strong>{{ bet_data.wagers[0].amount }}</strong>____ that ____<strong>{{ bet_data.wagers[0].condition }}</strong>____.</h4>
-		        <br>
-		        <h4>You bet ____<strong>{{ bet_data.wagers[1].amount }}</strong>____ that ____<strong>{{ bet_data.wagers[1].condition }}</strong>____.</h4>
-		        {% endverbatim %}
-		     {% endif %}
+        		{% verbatim %}
+	        	<h4>The creator bet ____<strong>{{ bet_data.wagers[0].amount }}</strong>____ that ____<strong>{{ bet_data.wagers[0].condition }}</strong>____.</h4>
+	        	<br>
+	        	<h4>The opponent bet ____<strong>{{ bet_data.wagers[1].amount }}</strong>____ that ____<strong>{{ bet_data.wagers[1].condition }}</strong>____.</h4>
+	       		{% endverbatim %}
+		    {% endif %}
 	    {% endif %}
 	    <br>
 	    <br>
@@ -43,14 +52,15 @@
 
         <br><br><br><br><br>
         {% if user.is_authenticated and bet_data.date_accepted = null %}
-        	<button ng-click="dosomething()" id="delete-button">Delete Bet</button>
-        	{% if user.user_id != bet_data.creator_id %}
-        		<button ng-click="dosomething()" id="accept-button">Accept Bet</button>
+        	{% if user.id = bet_data.creator_id %}
+        		<button ng-click="dosomething()" id="delete-button">Delete Bet</button>
+        	{% elif user.id != bet_data.creator_id %}
+        		<!-- <button ng-click="dosomething()" id="accept-button">Accept Bet</button> -->
         	{% endif %}
         {% endif %}
 
 
-
+        </div>
     </div>
 </div>
 
