@@ -12,7 +12,7 @@ router.register(r'bets', views.BetSetView, 'bet')
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
-	url(r'^api/', include(router.urls)),
+	url(r'^room/', include(router.urls)),
     url(r'^getstarted/$', TemplateView.as_view(template_name='getting_started.html'), name='getstarted'),
     url(r'^faq/$', TemplateView.as_view(template_name='faq.html'), name='faq'),
     url(r'^register/', views.register_user, name='register'),
@@ -25,4 +25,5 @@ urlpatterns = [
     url(r'^room/find/$', views.find_room_from_key, name='find'),
     url(r'^room/edit/(?P<room_key>[^/]+)/$', views.submit_challenged, name='edit'),
     url(r'^room/error/$', TemplateView.as_view(template_name='room_ready_error.html'), name='room_ready_error'),
+    url(r'^email/$', views.sendmail, name='email'),
 ]

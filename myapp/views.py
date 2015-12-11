@@ -2,6 +2,8 @@ import django_filters
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail, BadHeaderError, EmailMessage
+
 from django.views.generic import TemplateView, DetailView, ListView, FormView
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -20,7 +22,16 @@ class DetailRoomList(TemplateView):
 	template_name = "detail_list.html"
 
 class DetailRoom(TemplateView):
-	template_name = 'detail.html'
+	template_name = 'detail.html' 
+
+def sendmail(request):
+	# email = EmailMessage('Hello', 'World', to=['pl@live.unc.edu'])
+	# email.send()
+	try:
+		send_mail("asdf", "bodyofmessage", "uncsetinstone@gmail.com", ['PL@LIVE.UNC.EDU'])
+		return HttpResponseRedirect('/faq/')
+	except:
+		return HttpResponseRedirect('/room/')
 
 def room_detail(request, pid):
 	# send request to django in json
@@ -64,13 +75,20 @@ class BetSetView(viewsets.ModelViewSet):
 		wager_data = []
 		wager_data.append((request.data.pop('amount1'), request.data.pop('condition1')))
 		wager_data.append((request.data.pop('amount2'), request.data.pop('condition2')))
+		email = request.data.pop('email')
+		print email
+
 		bet_data = request.data
 		bet_data['wager_data'] = [{'amount':a,'condition':c} for a,c in wager_data]
 		bet_data['wagers'] = []
 		bet = BetSerializer(data=bet_data,context={'request':request})
 		if bet.is_valid():
 			bet.save(creator_id=request.user)
-			bet.save()
+			bet = bet.save()
+			print 'email: ' + bet['email']
+			print 'bet: ' + bet
+
+			send_mail("asdf", "sent via room create", "uncsetinstone@gmail.com", [email])			
 			return Response(bet.data, status=status.HTTP_201_CREATED)
 		else:
 			return Response(bet.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -98,7 +116,6 @@ class RoomSetView(viewsets.ModelViewSet, APIView):
 
 
 def submit_room(request):
-
 	if request.method == 'POST':
 		if 'submit' in request.POST:
 			form = SubmitRoomForm(request.POST)

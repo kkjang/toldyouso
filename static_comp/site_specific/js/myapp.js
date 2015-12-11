@@ -154,7 +154,8 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                 console.log("Success");
                 console.log(out_data);
                 $window.location.href = djangoUrl.reverse('thanks');
-            });
+            });        
+
     }
 
     $scope.getKeyFromUrl = function(){
@@ -207,6 +208,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.getAllBets = function(){
         $http.get(djangoUrl.reverse('bet-list'))
             .success(function (data){
+                console.log(data);
                 $scope.processBets(data);
             });
     }
@@ -286,6 +288,9 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             });
     }
 
+    // $scope.sendEmails = function() {
+
+    // }
     //setinstone.com/angular/reverse/bet-list?title=asdf
 });
 
