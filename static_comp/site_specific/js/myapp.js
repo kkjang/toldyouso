@@ -122,9 +122,8 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
                             showFilter : true,
                             enableColumnResize : true,
                             columnDefs:[
-                            {field:'betTitle', displayName: 'Bet Title',         
-                                cellTemplate: '<div class="ngCellText ng-scope col1 colt1" ng-click="displayBetContents()" ng-bind="row.getProperty(col.field)"></div>'},
-                            {field:'challengerCondition', displayName: "Challenger Condition"},
+              {field:'betTitle', displayName: 'Bet Title',
+                          cellTemplate: '<div class="ngCellText" ng-class="col.colIndex()"><a target="_self" ng-href="/bets/{{row.getProperty(\'betId\')}}" ng-bind="row.getProperty(col.field)"></a></div>'},               {field:'challengerCondition', displayName: "Challenger Condition"},
                             {field:'challengerAmount', displayName: "Challenger Amount"},
                             {field:'challengedCondition', displayName: "Challenged Condition"}, 
                             {field:'challengedAmount', displayName: "Challenged Amount"},
@@ -166,6 +165,7 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
         var i = 0;
         for(i = 0; i <$scope.allBets.length; i++){
             $scope.processedBet = [];
+            $scope.processedBet.betId = $scope.allBets[i].id;
             $scope.processedBet.betTitle = $scope.allBets[i].title;
             $scope.processedBet.dateCreated = $scope.allBets[i].date_created;
             if($scope.allBets[i].wagers[0].user_id === $scope.allBets[i].creator_id){
