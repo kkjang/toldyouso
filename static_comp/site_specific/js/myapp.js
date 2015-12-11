@@ -168,10 +168,10 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             $scope.processedBet = [];
             $scope.processedBet.betTitle = $scope.allBets[i].title;
             $scope.processedBet.dateCreated = $scope.allBets[i].date_created;
+            $scope.processedBet.dateAccepted = $scope.allBets[i].date_accepted;
             if($scope.allBets[i].wagers[0].user_id === $scope.allBets[i].creator_id){
                 //ADD CONDITION TO CHECK IF 2ND USER IS NULL
                 $scope.processedBet.creatorUserId = $scope.allBets[i].wagers[0].user_id; 
-                // $scope.processedBet.challengerUserId = $scope.allBets[i].wagers[1].user_id; 
                 $scope.processedBet.challengerCondition = $scope.allBets[i].wagers[0].condition;
                 $scope.processedBet.challengerAmount = $scope.allBets[i].wagers[0].amount;
                 $scope.processedBet.challengedCondition = $scope.allBets[i].wagers[1].condition;
@@ -179,7 +179,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
             }
             else if ($scope.allBets[i].wagers[1].user_id === $scope.allBets[i].creator_id){
                 $scope.processedBet.creatorUserId = $scope.allBets[i].wagers[0].user_id; 
-                // $scope.processedBet.challengerUserId = $scope.allBets[i].wagers[1].user_id; 
                 $scope.processedBet.challengerAmount = $scope.allBets[i].wagers[1].amount;
                 $scope.processedBet.challengerCondition = $scope.allBets[i].wagers[1].condition; 
                 $scope.processedBet.challengedCondition = $scope.allBets[i].wagers[0].condition;
@@ -201,12 +200,68 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     $scope.getBet = function(){
         var bet_id = $location.path().split('/')[2];
         $http.get(djangoUrl.reverse('bet-detail', {'pk':bet_id}))
-            .success(function (data){
-                $scope.bet_data = data; 
+            .then(function (response) {
+                console.log(response);
+                $scope.bet_data = response.data; 
                 console.log('$scope.bet_data = ', $scope.bet_data);
                 console.log($scope);
-            })
+            }, function(response) {
+                console.log(response);
+                if (response.status == 403){
+                    $window.location.href = djangoUrl.reverse('403_error');
+                }
+            });
     }
+
+    $scope.getBetWithKey = function(){
+        var bet_id = $location.path().split('/')[2];
+        var search_vars = $location.search();
+        var key = search_vars['key'];
+        $http.get(djangoUrl.reverse('bet-detail', {'pk':bet_id}) + '&key=' + key)
+            .then(function (response) {
+                console.log(response);
+                $scope.bet_data = response.data; 
+                console.log('$scope.bet_data = ', $scope.bet_data);
+                console.log($scope);
+            }, function(response) {
+                console.log(response);
+                if (response.status == 403){
+                    $window.location.href = djangoUrl.reverse('403_error');
+                }
+            });
+    }
+
+    $scope.acceptBet = function(){
+        console.log("NEW SCOPE");
+        console.log($scope);
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+        if(dd<10) {
+            dd='0'+dd
+        } 
+
+        if(mm<10) {
+            mm='0'+mm
+        } 
+        today = yyyy + '-' + mm+'-'+dd;
+        var update_data = {'date_accepted': today}
+        var bet_id = $location.path().split('/')[2];
+        $http.patch(djangoUrl.reverse('bet-detail', {'pk':bet_id}), update_data)
+            .then(function (response) {
+                console.log(response);
+                $scope.bet_data = response.data; 
+                console.log('$scope.bet_data = ', $scope.bet_data);
+                console.log($scope);
+            }, function(response) {
+                console.log(response);
+                if (response.status == 403){
+                    $window.location.href = djangoUrl.reverse('403_error');
+                }
+            });
+    }
+
 
     $scope.filterBets = function(){
         console.log("filtering bets");
@@ -263,20 +318,6 @@ my_app.controller('RoomController', function($scope, $http, $window, djangoUrl, 
     //             console.log("done!");
     //         });
     // }
-
-    $(document).ready(function () {
-        switch_to_list_view();
-    });
-
-     $.ajax("/angular/reverse/?djng_url_name=bet-list&title=test",
-       {type: "GET",
-        dataType: "json",
-        success: function (data) {
-            // console.log("ajax data returned = ", data);
-            $scope.processBets(data);
-        }
-       });
-
 
 
     //setinstone.com/angular/reverse/bet-list?title=asdf

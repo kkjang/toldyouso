@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="small-list-space">
-    <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getBet()">
+    <div ng-controller="RoomController" ng-app='myapp' data-ng-init="getBetWithKey()">
         {% verbatim %}
         <h2>{{ bet_data.title }}</h2>
         {% endverbatim %}
@@ -41,6 +41,15 @@
         	<h4>This bet has not yet been accepted.</h4>
         {% else %}
         	{% verbatim %}<h4>Finalized Date: {{ bet_data.date_accepted }}</h4>{% endverbatim %}
+        {% endif %}
+
+        <br><br><br><br><br>
+        {% if user.is_authenticated and bet_data.date_accepted = null %}
+        	{% if user.id = bet_data.creator_id %}
+        		<button ng-click="dosomething()" id="delete-button">Delete Bet</button>
+        	{% elif user.id != bet_data.creator_id %}
+        		<button ng-click="acceptBet()" id="accept-button">Accept Bet</button>
+        	{% endif %}
         {% endif %}
 
         </div>

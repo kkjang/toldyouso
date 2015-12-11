@@ -18,7 +18,7 @@ class Room(models.Model):
 class Wager(models.Model):
 	condition = models.TextField(max_length=255)
 	amount = models.CharField(max_length=100)
-	user_id = models.ForeignKey(User)
+	user_id = models.ForeignKey(User, null=True)
 
 class Bet(models.Model):
 	title = models.CharField(max_length=255)

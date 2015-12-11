@@ -1,5 +1,6 @@
 import django_filters
 import datetime
+import uuid
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -16,13 +17,14 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from .serializers import RoomSerializer, BetSerializer, WagerSerializer
 from .forms import SubmitRoomForm, RequestRoomForm, ResponseRoomForm, UserRegisterForm, UserLoginForm, SubmitWagerForm, SubmitBetForm
+from rest_framework.exceptions import PermissionDenied
 
 
 def send_invite_email(email, request, bet):
 	key = bet.key
 	username = request.user.get_username()
 	subject = "SetInStone Bet Invitation"
-	email_body = "Hello! You have received an invitation to a bet from %s.  Please follow this link to get started! http://www.setinstone.com:8000/bet/%s?key=%s" % (username, bet.id, key)
+	email_body = "Hello! You have received an invitation to a bet from %s.  Please follow this link to get started! http://www.setinstone.com:8000/bet/%s/accept?key=%s" % (username, bet.id, key)
 
 	send_mail(subject, email_body, None, [email], fail_silently=False)
 
@@ -32,6 +34,9 @@ class DetailRoomList(TemplateView):
 
 class DetailRoom(TemplateView):
 	template_name = 'detail.html'
+
+class AcceptDetailRoom(TemplateView):
+	template_name = 'accept_detail.html'
 
 def room_detail(request, pid):
 	# send request to django in json
@@ -71,12 +76,46 @@ class WagerSetView(viewsets.ViewSet, ListAPIView):
 class BetSetView(viewsets.ModelViewSet):
 	serializer_class = BetSerializer
 
+	def partial_update(self,*args, **kwargs):
+		instance = self.get_object()
+		print 'instance is', instance
+		print self.request.data
+		bet = BetSerializer(instance, data = self.request.data, partial=True)
+		if bet.is_valid():
+			created_bet = bet.save()
+			wager_id = bet.data['wagers'][1]['id']
+			update_wager = Wager.objects.get(pk=wager_id)
+			wager_data = {'user_id':User.objects.get(pk=self.request.user.id)}
+			print wager_data
+			wager = WagerSerializer(update_wager, data=wager_data, partial=True)
+			if wager.is_valid():
+				wager.save(user_id=self.request.user)
+				wager.save()
+			return Response(bet.data, status=status.HTTP_201_CREATED)
+		else:
+			return Response(bet.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 	def retrieve(self, *args, **kwargs):
 		super(BetSetView, self).retrieve(self, *args, **kwargs)
 		bet_id = kwargs['pk']
-		print 'REQUEST', self.request.user, self.request.data
 		bet = Bet.objects.get(pk=bet_id)
-	
+		key = self.request.query_params.get('key', None)
+		if key is None:
+			bet = BetSerializer(bet)
+			return Response(bet.data, status=status.HTTP_201_CREATED)
+		else:
+			if key != 'undefined' and key != 'true' and not None:
+				try:
+					key = uuid.UUID(key)
+					if bet.key == key:
+						bet = BetSerializer(bet)
+						return Response(bet.data, status=status.HTTP_201_CREATED)
+					else:
+						raise PermissionDenied
+				except:
+					raise PermissionDenied
+			raise PermissionDenied
 
 	def create(self, request):
 		wager_data = []
@@ -90,7 +129,6 @@ class BetSetView(viewsets.ModelViewSet):
 		if bet.is_valid():
 			bet.save(creator_id=request.user)
 			created_bet = bet.save()
-			print created_bet
 			send_invite_email(email, request, Bet.objects.get(pk=created_bet.id))
 			return Response(bet.data, status=status.HTTP_201_CREATED)
 		else:
@@ -151,6 +189,7 @@ class BetSetView(viewsets.ModelViewSet):
 				date_accepted_end = datetime.date(year, month+1, day)
 				print date_accepted_start, date_accepted_end
 				queryset = queryset.filter(date_accepted__range=(date_accepted_start, date_accepted_end))
+		print 'new queryset', queryset
 		return queryset
 
 class RoomSetView(viewsets.ModelViewSet, APIView):

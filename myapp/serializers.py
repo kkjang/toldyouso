@@ -28,10 +28,11 @@ class BetSerializer(serializers.ModelSerializer):
 		request = self.context['request']
 		wager_data = validated_data.pop('wager_data')
 		created_wager = []
-		for wager in wager_data:
+		for num, wager in enumerate(wager_data):
 			wager = WagerSerializer(data=wager)
 			if wager.is_valid():
-				wager.save(user_id=request.user)
+				if num == 0:
+					wager.save(user_id=request.user)
 				created_wager.append(wager.save())
 			else:
 				return Response(wager.errors, status=status.HTTP_400_BAD_REQUEST)
