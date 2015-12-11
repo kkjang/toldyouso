@@ -8,9 +8,6 @@
         {% verbatim %}
         <h2>{{ bet_data.title }}</h2>
         {% endverbatim %}
-        {% if user.is_authenticated and user.user_id = bet_data.creator_id and bet_data.date_accepted = null %}
-        	<button ng-click="dosomething()" id="delete-button" style="margin-left:0%">Delete Bet</button>
-        {% endif %}
         <br>
         <br>
 
@@ -41,8 +38,19 @@
         {% if bet_data.date_accepted = null%}
         	<h4>This bet has not yet been accepted.</h4>
         {% else %}
-        	{%verbatim%}<h4>Finalized Date: {{ bet_data.date_accepted }}</h4>{%endverbatim%}
+        	{% verbatim %}<h4>Finalized Date: {{ bet_data.date_accepted }}</h4>{% endverbatim %}
         {% endif %}
+
+        <br><br><br><br><br>
+        {% if user.is_authenticated and bet_data.date_accepted = null %}
+        	<button ng-click="dosomething()" id="delete-button">Delete Bet</button>
+        	{% if user.user_id != bet_data.creator_id %}
+        		<button ng-click="dosomething()" id="accept-button">Accept Bet</button>
+        	{% endif %}
+        {% endif %}
+
+
+
     </div>
 </div>
 

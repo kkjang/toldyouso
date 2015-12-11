@@ -175,6 +175,19 @@
 .amount {
   width: 60%;
 }
+#accept-button  {
+  color: white;
+  font-size: 1.3em;
+  padding:5px 15px; 
+  background:#007B95; 
+  border:0 none;
+  cursor:pointer;
+  border-radius: 5px; 
+  margin-top: 5px;
+}
+#accept-button:hover {
+  background:#003366; 
+}
 .navbar-default {
   background-color: #ffffff;
   border-color: #ffffff;
@@ -243,7 +256,7 @@
   color: white;
   font-size: 1.3em;
   padding:5px 15px; 
-  margin-left: 1%;
+  /*margin-left: 1%;*/
   background:#ff6666; 
   border:0 none;
   cursor:pointer;
